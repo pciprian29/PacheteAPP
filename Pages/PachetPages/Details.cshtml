@@ -1,0 +1,91 @@
+@page
+@model PacheteAPP.Pages.PachetPages.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Pachet</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Pachet.awb)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Pachet.awb)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Pachet.descriere)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Pachet.descriere)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Pachet.tip_pachet)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Pachet.tip_pachet)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Pachet.nume_expeditor)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Pachet.nume_expeditor)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Pachet.adresa_expeditor)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Pachet.adresa_expeditor)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Pachet.nume_destinatar)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Pachet.nume_destinatar)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Pachet.adresa_destinatar)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Pachet.adresa_destinatar)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Pachet.data_inregistrare)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Pachet.data_inregistrare)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Pachet.greutate_teoretica)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Pachet.greutate_teoretica)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Pachet.greutate_efectiva)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Pachet.greutate_efectiva)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Pachet.status_pachet)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Pachet.status_pachet)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Pachet.id_user)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Pachet.id_user)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Pachet.id_pachet">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

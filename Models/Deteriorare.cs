@@ -1,0 +1,25 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace PacheteAPP.Models
+{
+    [Table("Deteriorari")]
+    public class Deteriorare
+    {
+        [Key]
+        public int id_deteriorare { get; set; }
+        [Required]
+        public DateTime data_deteriorare { get; set; } = DateTime.Now;
+
+        [Required]
+        [MaxLength(255)]
+        public string locatie_deteriorare { get; set; }
+
+        [Required]
+        [MaxLength(255)]
+        public string descriere_deteriorare { get; set; }
+
+        [Required]
+        public int pachet_deteriorat { get; set; }
+    }
+}
