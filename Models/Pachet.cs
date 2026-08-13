@@ -23,6 +23,12 @@ namespace PacheteAPP.Models
         Lipsa,
         Partial
     }
+    public enum TipInregistrare
+    {
+        InfoPachet,
+        InfoLipsa,
+        Deteriorare
+    }
     [Table("Pachete")]
     public class Pachet 
     {
@@ -68,9 +74,5 @@ namespace PacheteAPP.Models
         
         [Required]
         public StatusPachet status_pachet { get; set; }
-
-        [Required]
-        [MaxLength(450)]
-        public string id_user { get; set; }
     }
 }

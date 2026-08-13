@@ -7,7 +7,7 @@ namespace PacheteAPP.Models
     public class InformatieLipsa
     {
         [Key]
-        public int id_inregistrare { get; set; }
+        public int id_info_lipsa { get; set; }
 
         [Required]
         [MaxLength(255)]
@@ -21,6 +21,6 @@ namespace PacheteAPP.Models
         public string descriere { get; set; }
 
         [Required]
-        public int pachet_afectat { get; set; }
+        public int id_inregistrare { get; set; }
     }
 }

@@ -20,6 +20,6 @@ namespace PacheteAPP.Models
         public string descriere_deteriorare { get; set; }
 
         [Required]
-        public int pachet_deteriorat { get; set; }
+        public int id_inregistrare { get; set; }
     }
 }
