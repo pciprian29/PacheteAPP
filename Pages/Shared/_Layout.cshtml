@@ -8,7 +8,12 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PacheteAPP.styles.css" asp-append-version="true" />
+    @* <link rel="stylesheet" href="~/css/cutia-theme.css" asp-append-version="true" /> *@
 </head>
+
+@using Microsoft.AspNetCore.Authorization;
+@inject IAuthorizationService AuthorizationService
+
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -21,11 +26,20 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/PachetPages/IndexPachet">Pachete</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/InfoLipsaPages/IndexInfoLipsa">Informatii Lipsa</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/DeteriorariPages/IndexDeteriorare">Deteriorari</a>
+                        </li>
+                        @if((User.IsInRole("Admin")))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/UsersPages/IndexUsers">Utilizatori</a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -37,7 +51,9 @@
             @RenderBody()
         </main>
     </div>
-
+    <button onclick="history.back()" class="btn btn-secondary position-fixed top-0 start-0 ms-3 mt-2 z-1 shadow">
+        &larr; Inapoi
+    </button>
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2026 - PacheteAPP - <a asp-area="" asp-page="/Privacy">Privacy</a>

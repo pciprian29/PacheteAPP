@@ -8,9 +8,7 @@ namespace PacheteAPP.Models
     {
         [Key]
         public int id_deteriorare { get; set; }
-        [Required]
-        public DateTime data_deteriorare { get; set; } = DateTime.Now;
-
+        
         [Required]
         [MaxLength(255)]
         public string locatie_deteriorare { get; set; }

@@ -1,0 +1,48 @@
+﻿@page "{id_info_lipsa:int}"
+@model PacheteAPP.Pages.InfoLipsaPages.DeleteInfoLipsaModel
+@{
+    // ViewData["Title"] = "Detalii Informatii Lipsa";
+}
+
+<div class="container mt-4">
+    <h1 class="h3 mb-4">Detalii Informatii Lipsa</h1>
+    
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Detalii Informatie Lipsa pentru AWB: @Model.InfoLipsa.awb</h5>
+        </div>
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">AWB:</dt>
+                <dd class="col-sm-9">@Model.InfoLipsa.awb</dd>
+
+                <dt class="col-sm-3">Camp Afectat:</dt>
+                <dd class="col-sm-9">@Model.InfoLipsa.camp_afectat</dd>
+
+                <dt class="col-sm-3">Tip Lipsa:</dt>
+                <dd class="col-sm-9">@Model.InfoLipsa.tip_lipsa</dd>
+
+                <dt class="col-sm-3">Descriere Lipsa</dt>
+                <dd class="col-sm-9">@Model.InfoLipsa.descriere_lipsa</dd>
+
+                <dt class="col-sm-3">Data Inregistrare:</dt>
+                <dd class="col-sm-9">@Model.InfoLipsa.data_inregistrare</dd>
+
+                <dt class="col-sm-3">Utilizator Inregistrare:</dt>
+                <dd class="col-sm-9">@Model.InfoLipsa.utilizator_inregistrare</dd>
+            </dl>
+
+        </div>
+        <div class="card-footer text-end">
+            <form method="post">
+
+                <input type="hidden" asp-for="InfoLipsa.id_info_lipsa" />
+
+                <button type="submit" class="btn btn-danger">Sterge</button>
+            </form>
+            <a asp-page="./IndexInfoLipsa" class="btn btn-secondary">Inapoi la Lista</a>
+        </div>
+
+    </div>
+</div>
+    

@@ -1,0 +1,128 @@
+﻿@page "{awbPachet}"
+@model PacheteAPP.Pages.PachetPages.InregistrariModel
+
+@{
+    ViewData["Title"] = "Inregistrari Pachet";
+}
+@using Microsoft.AspNetCore.Authorization;
+@inject IAuthorizationService AuthorizationService;
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Inregistrari pentru AWB: @RouteData.Values["awbPachet"]</h1>
+    <a asp-page="/PachetPages/IndexPachet" class="btn btn-outline-secondary">Inapoi la Pachete</a>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="text-danger m-0">Lista Deteriorari</h3>
+            @if((await AuthorizationService.AuthorizeAsync(User, "CanCreate")).Succeeded)
+            {
+                <a asp-page="/DeteriorariPages/CreateDeteriorare" asp-route-awb="@RouteData.Values["awbPachet"]" class="btn btn-sm btn-outline-primary">Adauga Deteriorare</a>
+            }
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Data</th>
+                        <th>Descriere</th>
+                        <th>Utilizator</th>
+                        <th>Actiuni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Deteriorare != null && Model.Deteriorare.Any())
+                    {
+                        foreach (var item in Model.Deteriorare)
+                        {
+                            <tr>
+                                <td>@item.data_inregistrare</td>
+                                <td>@item.descriere_deteriorare</td>
+                                <td>@item.utilizator_inregistrare</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        @if((await AuthorizationService.AuthorizeAsync(User, "CanView")).Succeeded)
+                                        {
+                                            <a asp-page="/DeteriorariPages/DetailsDeteriorare" asp-route-id_deteriorare="@item.id_deteriorare" class="btn btn-sm btn-secondary">Detalii</a>
+                                        }
+                                        @if((await AuthorizationService.AuthorizeAsync(User, "CanEdit")).Succeeded)
+                                        {
+                                            <a asp-page="/DeteriorariPages/EditDeteriorare" asp-route-id_deteriorare="@item.id_deteriorare" class="btn btn-sm btn-primary">Editeaza</a>
+                                        }
+                                        @if((await AuthorizationService.AuthorizeAsync(User, "CanDelete")).Succeeded)
+                                        {
+                                            <a asp-page="/DeteriorariPages/DeleteDeteriorare" asp-route-id_deteriorare="@item.id_deteriorare" class="btn btn-sm btn-danger">Sterge</a>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">Nu exista deteriorari inregistrate.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="text-warning m-0">Lista Informatii Lipsa</h3>
+            @if((await AuthorizationService.AuthorizeAsync(User, "CanCreate")).Succeeded)
+            {
+                <a asp-page="/InfoLipsaPages/CreateInfoLipsa" asp-route-awb="@RouteData.Values["awbPachet"].ToString()" class="btn btn-sm btn-outline-primary">Adauga InfoLipsa</a>
+            }
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Data</th>
+                        <th>Detalii Lipsa</th>
+                        <th>Utilizator</th>
+                        <th>Actiuni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.InfoLipsa != null && Model.InfoLipsa.Any())
+                    {
+                        foreach (var item in Model.InfoLipsa)
+                        {
+                            <tr>
+                                <td>@item.data_inregistrare</td>
+                                <td>@item.descriere_lipsa</td>
+                                <td>@item.utilizator_inregistrare</td>
+                                <td>
+                                    @if((await AuthorizationService.AuthorizeAsync(User, "CanView")).Succeeded)
+                                    {
+                                        <a asp-page="/InfoLipsaPages/DetailsInfoLipsa" asp-route-id_info_lipsa="@item.id_info_lipsa" class="btn btn-sm btn-secondary">Detalii</a>
+                                    }
+                                    @if((await AuthorizationService.AuthorizeAsync(User, "CanEdit")).Succeeded)
+                                    {
+                                        <a asp-page="/InfoLipsaPages/EditInfoLipsa" asp-route-id_info_lipsa="@item.id_info_lipsa" class="btn btn-sm btn-primary">Editeaza</a>
+                                    }
+                                    @if((await AuthorizationService.AuthorizeAsync(User, "CanDelete")).Succeeded)
+                                    {
+                                        <a asp-page="/InfoLipsaPages/DeleteInfoLipsa" asp-route-id_info_lipsa="@item.id_info_lipsa" class="btn btn-sm btn-danger">Sterge</a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">Nu exista informatii lipsa.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -26,7 +26,7 @@ namespace PacheteAPP.Models
 
         [Required]
         [MaxLength(255)]
-        public string user_modificare { get; set; }
+        public int user_modificare { get; set; }
 
         [Required]
         public int id_pachet { get; set; }

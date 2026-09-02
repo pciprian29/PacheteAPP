@@ -1,0 +1,63 @@
+﻿@page "{id_info_lipsa:int}"
+@model PacheteAPP.Pages.InfoLipsaPages.EditInfoLipsaModel
+@{
+    ViewData["Title"] = "Editeaza Informatie Lipsa";
+}
+
+<div class="container mt-4">
+    <h1 class="h3 mb-4">Editeaza Informatia Lipsa</h1>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-warning">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="bi bi-pencil-square"></i> Modificare date pentru AWB: <strong>@Model.PachetAwb</strong></h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <input type="hidden" asp-for="InformatieLipsa.id_info_lipsa" />
+                        <input type="hidden" asp-for="PachetAwb" />
+
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none" data-val-summary></div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label text-muted">AWB Pachet (Informativ)</label>
+                                <input class="form-control bg-light" value="@Model.PachetAwb" disabled />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="InformatieLipsa.id_tip_lipsa" class="form-label fw-bold">Tipul Lipsei</label>
+                                <select asp-for="InformatieLipsa.id_tip_lipsa" class="form-select border-primary" asp-items="ViewBag.id_tip_lipsa"></select>
+                                <span asp-validation-for="InformatieLipsa.id_tip_lipsa" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="InformatieLipsa.camp_afectat" class="form-label">Camp Afectat</label>
+                                <input asp-for="InformatieLipsa.camp_afectat" class="form-control" />
+                                <span asp-validation-for="InformatieLipsa.camp_afectat" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="InformatieLipsa.descriere" class="form-label">Descrierea Lipsei</label>
+                                <textarea asp-for="InformatieLipsa.descriere" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="InformatieLipsa.descriere" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2 border-top pt-3">
+                            <button type="submit" class="btn btn-success"><i class="bi bi-save"></i> Salveaza Modificarile</button>
+                            <a asp-page="./IndexInfoLipsa" class="btn btn-outline-secondary">Anuleaza</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

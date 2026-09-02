@@ -1,0 +1,35 @@
+﻿@page
+@model PacheteAPP.Pages.TransporturiPages.DeleteTransporturiModel
+@{
+    ViewData["Title"] = "Stergere Transport";
+}
+
+<div class="container mt-4">
+    <h2 class="text-danger">Stergere Transport</h2>
+    <h3>Esti sigur ca vrei sa stergi acest transport?</h3>
+    <hr />
+
+    <div class="card shadow-sm border-danger mt-3">
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">Numar Auto</dt>
+                <dd class="col-sm-9">@Model.Transport.numar_auto</dd>
+
+                <dt class="col-sm-3">Sofer</dt>
+                <dd class="col-sm-9">@Model.UsernameCurent</dd>
+
+                <dt class="col-sm-3">Data Plecare</dt>
+                <dd class="col-sm-9">@Model.Transport.data_plecare.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                <dt class="col-sm-3">Ruta</dt>
+                <dd class="col-sm-9">@Model.Transport.Ruta?.cod_ruta</dd>
+            </dl>
+        </div>
+    </div>
+
+    <form method="post" class="mt-4">
+        <input type="hidden" asp-for="Transport.id_transport" />
+        <button type="submit" class="btn btn-danger">Confirma Stergerea</button>
+        <a asp-page="./IndexTransporturi" class="btn btn-secondary ms-2">Anuleaza</a>
+    </form>
+</div>

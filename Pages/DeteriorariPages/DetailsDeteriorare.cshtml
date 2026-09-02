@@ -1,0 +1,52 @@
+﻿@page "{id_deteriorare:int}"
+@model PacheteAPP.Pages.DeteriorariPages.DetailsDeteriorareModel
+@{
+    ViewData["Title"] = "Detalii Deteriorare";
+}
+
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+<div class="container mt-4">
+    <h1 class="h3 mb-4">Detalii Deteriorare</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Detalii Deteriorare pentru AWB: @Model.Deteriorare.awb</h5>
+        </div>
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">AWB:</dt>
+                <dd class="col-sm-9">@Model.Deteriorare.awb</dd>
+            </dl>
+            <dl class="row mb-0">
+                <dt class="col-sm-3">Locatie Deteriorare</dt>
+                <dd class="col-sm-9">@Model.Deteriorare.locatie_deteriorare</dd>
+            </dl>
+            <dl class="row mb-0">
+                <dt class="col-sm-3">Descriere Deteriorare</dt>
+                <dd class="col-sm-9">@Model.Deteriorare.descriere_deteriorare</dd>
+            </dl>
+            <dl class="row mb=0">
+                <dt class="col-sm-3">Data Inregistrarii</dt>
+                <dd class="col-sm-9">@Model.Deteriorare.data_inregistrare</dd>
+            </dl>
+            <dl class="row mb-0">
+                <dt class="col-sm-3">User Inregistrare</dt>
+                <dd class="col-sm-9">@Model.Deteriorare.utilizator_inregistrare</dd>
+            </dl>
+        </div>
+        <div class="card-footer text-end">
+            @if((await AuthorizationService.AuthorizeAsync(User, "CanView")).Succeeded)
+            {
+                <a asp-page="/IstoricPages/TimelineIstoricModificari" asp-route-id_pachet="@Model.idPachet" asp-route-TipObiect="Deteriorari" class="btn btn-outline-info">
+                    Vezi Istoric Deteriorare
+                </a>
+            }
+            @if((await AuthorizationService.AuthorizeAsync(User, "CanEdit")).Succeeded)
+            {
+                <a asp-page="./EditDeteriorare" asp-route-id_deteriorare="@Model.Deteriorare.id_deteriorare" class="btn btn-primary">Editeaza</a>
+            }
+            <a asp-page="./IndexDeteriorare" class="btn btn-secondary">Inapoi la Lista</a>
+        </div>
+    </div>
+</div>

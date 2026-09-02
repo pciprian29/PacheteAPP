@@ -1,0 +1,68 @@
+@page "{id_pachet:int}"
+@model PacheteAPP.Pages.PachetPages.DeleteModel
+
+@{
+    ViewData["Title"] = "Sterge Pachet";
+}
+
+<div class="container mt-4">
+    <h1 class="h3 mb-4">Sterge Pachet</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Informatii AWB: <strong>@Html.DisplayFor(model => model.Pachet.awb)</strong></h5>
+        </div>
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">AWB</dt>
+                <dd class="col-sm-9"><strong>@Html.DisplayFor(model => model.Pachet.awb)</strong></dd>
+
+                <dt class="col-sm-3">Tip Pachet</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Pachet.tip_pachet)</dd>
+
+                <dt class="col-sm-3">Descriere</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Pachet.descriere_pachet)</dd>
+
+                <dt class="col-sm-3">Expeditor</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Pachet.nume_complet_expeditor)</dd>
+
+                <dt class="col-sm-3">Email Expeditor</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Pachet.email_expeditor)</dd>
+
+                <dt class="col-sm-3">Adresa Expeditor</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Pachet.adresa_expeditor)</dd>
+
+                <dt class="col-sm-3">Destinatar</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Pachet.nume_complet_destinatar)</dd>
+
+                <dt class="col-sm-3">Email Destinatar</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Pachet.email_destinatar)</dd>
+
+                <dt class="col-sm-3">Adresa Destinatar</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Pachet.adresa_destinatar)</dd>
+
+                <dt class="col-sm-3">Greutate Teoretica</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Pachet.greutate_teoretica) kg</dd>
+
+                <dt class="col-sm-3">Greutate Efectiva</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Pachet.greutate_efectiva) kg</dd>
+
+                <dt class="col-sm-3">Data Intregistrare</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Pachet.data_inregistrare)</dd>
+
+                <dt class="col-sm-3">User creator</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Pachet.UserName)</dd>
+                <dt class="col-sm-3">Status Pachet</dt>
+                <dd class="col-sm-9">
+                    <span class="badge bg-dark-subtle text">@Html.DisplayFor(model => model.Pachet.status_pachet)</span>
+                </dd>
+            </dl>
+        </div>
+        <div class="card-footer text-end">
+            <form method="post" asp-page="./Delete" asp-route-id_pachet="@Model.Pachet.id_pachet">
+                <button type="submit" class="btn btn-danger">Sterge</button>
+            </form>
+            <a asp-page="./Index" class="btn btn-secondary">Înapoi la Listă</a>
+        </div>
+    </div>
+</div>

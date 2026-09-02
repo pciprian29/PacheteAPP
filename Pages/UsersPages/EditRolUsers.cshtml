@@ -1,0 +1,34 @@
+﻿@page
+@model PacheteAPP.Pages.UsersPages.EditRolUsersModel
+@{
+    ViewData["Title"] = "Modificare Rol Utilizator";
+}
+
+<div class="container mt-4">
+    <h2>Modificare Rol pentru @Model.UserName</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-5">
+            <form method="post">
+                <input type="hidden" asp-for="idUser" />
+
+                <div class="form-group mb-3">
+                    <label class="control-label">Nume Utilizator</label>
+                    <input value="@Model.UserName" class="form-control" disabled />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="numeRolSelectat" class="control-label">Selecteaza Noul Rol</label>
+                    <select asp-for="numeRolSelectat" class="form-select" asp-items="Model.listaRoluri">
+                        <option value="">-- Fara Rol --</option>
+                    </select>
+                </div>
+
+                <div class="form-group mt-4">
+                    <button type="submit" class="btn btn-primary">Salveaza Modificarea</button>
+                    <a asp-page="./IndexUsers" class="btn btn-secondary ms-2">Anuleaza</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

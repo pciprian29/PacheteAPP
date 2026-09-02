@@ -14,13 +14,13 @@ namespace PacheteAPP.Models
         public string camp_afectat { get; set; }
 
         [Required]
-        public TipLipsa tip_lipsa { get; set; }
-
-        [Required]
         [MaxLength(255)]
         public string descriere { get; set; }
 
         [Required]
         public int id_inregistrare { get; set; }
+
+        [Required]
+        public int id_tip_lipsa { get; set; }
     }
 }

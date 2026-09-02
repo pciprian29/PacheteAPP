@@ -1,0 +1,49 @@
+﻿@page   "{id_modificare:int}"
+@model PacheteAPP.Pages.IstoricPages.DetailsIstoricModificariModel
+@{
+    ViewData["Title"] = "Detalii Modificare";
+}
+
+
+<div class="container mt-4">
+    <h1 class="h3 mb-4">Detalii Modificare</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-info text-dark">
+            <h5 class="mb-0">Detalii Modificare pentru ID: @Model.IstoricModificare.id_modificare</h5>
+        </div>
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">AWB:</dt>
+                <dd class="col-sm-9">@Model.IstoricModificare.awb_pachet</dd>
+            </dl>
+            <dl class="row mb-0">
+                <dt class="col-sm-3">Valoare veche</dt>
+                <dd class="col-sm-9">@Model.IstoricModificare.valoare_veche</dd>
+            </dl>
+            <dl class="row mb-0">
+                <dt class="col-sm-3">Valoare noua</dt>
+                <dd class="col-sm-9">@Model.IstoricModificare.valoare_noua</dd>
+            </dl>
+            <dl class="row mb=0">
+                <dt class="col-sm-3">Descriere Modificare</dt>
+                <dd class="col-sm-9">@Model.IstoricModificare.descriere</dd>
+            </dl>
+            <dl class="row mb-0">
+                <dt class="col-sm-3">Data Modificare</dt>
+                <dd class="col-sm-9">@Model.IstoricModificare.data_modificare</dd>
+            </dl>
+            <dl class="row mb-0">
+                <dt class="col-sm-3">ID User Modificare</dt>
+                <dd class="col-sm-9">@Model.IstoricModificare.user_modificare</dd>
+            </dl>
+            <dl class="row mb-0">
+                <dt class="col-sm-3">User Modificare</dt>
+                <dd class="col-sm-9">@Model.IstoricModificare.UserName</dd>
+            </dl>
+        </div>
+        <div class="card-footer text-end">
+            <a asp-page="./IndexIstoricModificare" class="btn btn-secondary">Inapoi la Lista</a>
+        </div>
+    </div>
+</div>

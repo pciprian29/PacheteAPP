@@ -1,0 +1,311 @@
+@page "{id_pachet:int}"
+@model PacheteAPP.Pages.PachetPages.EditModel
+@{
+    ViewData["Title"] = "Editeaza Pachet";
+}
+
+<!-- CSS Tom Select -->
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
+
+<div class="container mt-4">
+    <h1 class="h3 mb-4">Editeaza Pachet</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0"><i class="bi bi-pencil-square"></i> Modificare date AWB: <strong>@Model.Pachet.awb</strong></h5>
+        </div>
+
+        <div class="card-body">
+            <form method="post">
+                <input type="hidden" asp-for="Pachet.id_pachet" />
+                <input type="hidden" asp-for="Pachet.awb" />
+
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none" data-val-summary></div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted">AWB (Informativ)</label>
+                        <input class="form-control bg-light" value="@Model.Pachet.awb" disabled />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Pachet.id_status_pachet" class="form-label fw-bold">Status Pachet</label>
+                        <select asp-for="Pachet.id_status_pachet" class="form-select border-primary" asp-items="ViewBag.id_status_pachet"></select>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Pachet.id_tip_pachet" class="form-label">Tip Pachet</label>
+                        <select asp-for="Pachet.id_tip_pachet" class="form-select" asp-items="ViewBag.id_tip_pachet"></select>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Pachet.descriere" class="form-label">Descriere</label>
+                        <input asp-for="Pachet.descriere" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Pachet.greutate_teoretica" class="form-label">Greutate Teoretica</label>
+                        <div class="input-group">
+                            <input asp-for="Pachet.greutate_teoretica" class="form-control" />
+                            <span class="input-group-text">kg</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Pachet.greutate_efectiva" class="form-label">Greutate Efectiva</label>
+                        <div class="input-group">
+                            <input asp-for="Pachet.greutate_efectiva" class="form-control" />
+                            <span class="input-group-text">kg</span>
+                        </div>
+                    </div>
+                </div>
+
+                @* expeditor *@
+                <h2 class="h6 text-uppercase text-muted mb-3 mt-4 border-top pt-3">Expeditor</h2>
+                <div class="mb-3">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" asp-for="TipExpeditor" value="existent" id="expExistent" onchange="toggleFormFields()">
+                        <label class="form-check-label" for="expExistent">Client Existent</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" asp-for="TipExpeditor" value="nou" id="expNou" onchange="toggleFormFields()">
+                        <label class="form-check-label" for="expNou">Client Nou</label>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-5">
+                        <label asp-for="Pachet.email_expeditor" class="form-label">Email Expeditor</label>
+                        <input asp-for="Pachet.email_expeditor" class="form-control" />
+                        <span asp-validation-for="Pachet.email_expeditor" class="text-danger small"></span>
+
+                        @if (ViewData["EmailInexistentExpeditor"] != null && (bool)ViewData["EmailInexistentExpeditor"])
+                        {
+                            <div class="alert alert-info border-info mt-2 mb-0 py-2 px-3" id="alertInexistentExpeditor">
+                                <div class="form-check mb-0">
+                                    <input class="form-check-input" type="checkbox" id="chkInexistentExpeditor" onchange="schimbaPeClientNou('expeditor')">
+                                    <label class="form-check-label small fw-bold" for="chkInexistentExpeditor">
+                                        Email negasit. Bifati pentru Client Nou.
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                        @if (ViewData["AvertizareExpeditor"] != null && (bool)ViewData["AvertizareExpeditor"])
+                        {
+                            <div class="alert alert-warning border-warning mt-2 mb-0 py-2 px-3" id="alertSuprascriereExpeditor">
+                                <div class="form-check mb-0">
+                                    <input class="form-check-input" type="checkbox" asp-for="ConfirmaSuprascriereExpeditor">
+                                    <label class="form-check-label small fw-bold">
+                                        Bifati pentru a suprascrie datele clientului.
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-md-7">
+                        <label asp-for="Pachet.adresa_expeditor" class="form-label">Adresa Expeditor</label>
+                        <input asp-for="Pachet.adresa_expeditor" class="form-control" />
+                        <span asp-validation-for="Pachet.adresa_expeditor" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6 d-none" id="divExpNume">
+                        <label class="form-label">Nume Expeditor</label>
+                        <input type="text" asp-for="ExpeditorNume" class="form-control" />
+                    </div>
+                    <div class="col-md-6 d-none" id="divExpPrenume">
+                        <label class="form-label">Prenume Expeditor</label>
+                        <input type="text" asp-for="ExpeditorPrenume" class="form-control" />
+                    </div>
+                </div>
+
+                @* destinatar *@
+                <h2 class="h6 text-uppercase text-muted mb-3 mt-4 border-top pt-3">Destinatar</h2>
+                <div class="mb-3">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" asp-for="TipDestinatar" value="existent" id="destExistent" onchange="toggleFormFields()">
+                        <label class="form-check-label" for="destExistent">Client Existent</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" asp-for="TipDestinatar" value="nou" id="destNou" onchange="toggleFormFields()">
+                        <label class="form-check-label" for="destNou">Client Nou</label>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-5">
+                        <label asp-for="Pachet.email_destinatar" class="form-label">Email Destinatar</label>
+                        <input asp-for="Pachet.email_destinatar" class="form-control" />
+                        <span asp-validation-for="Pachet.email_destinatar" class="text-danger small"></span>
+
+                             @if (ViewData["EmailInexistentDestinatar"] != null && (bool)ViewData["EmailInexistentDestinatar"])
+                        {
+                            <div class="alert alert-info border-info mt-2 mb-0 py-2 px-3" id="alertInexistentDestinatar">
+                                <div class="form-check mb-0">
+                                    <input class="form-check-input" type="checkbox" id="chkInexistentDestinatar" onchange="schimbaPeClientNou('destinatar')">
+                                    <label class="form-check-label small fw-bold" for="chkInexistentDestinatar">
+                                        Email negasit. Bifati pentru Client Nou.
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                            @if (ViewData["AvertizareDestinatar"] != null && (bool)ViewData["AvertizareDestinatar"])
+                        {
+                            <div class="alert alert-warning border-warning mt-2 mb-0 py-2 px-3" id="alertSuprascriereDestinatar">
+                                <div class="form-check mb-0">
+                                    <input class="form-check-input" type="checkbox" asp-for="ConfirmaSuprascriereDestinatar">
+                                    <label class="form-check-label small fw-bold">
+                                        Bifati pentru a suprascrie datele clientului.
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-md-7">
+                        <label asp-for="Pachet.adresa_destinatar" class="form-label">Adresa Destinatar</label>
+                        <input asp-for="Pachet.adresa_destinatar" class="form-control" />
+                        <span asp-validation-for="Pachet.adresa_destinatar" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6 d-none" id="divDestNume">
+                        <label class="form-label">Nume Destinatar</label>
+                        <input type="text" asp-for="DestinatarNume" class="form-control" />
+                    </div>
+                    <div class="col-md-6 d-none" id="divDestPrenume">
+                        <label class="form-label">Prenume Destinatar</label>
+                        <input type="text" asp-for="DestinatarPrenume" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="text-end border-top pt-3 mt-4">
+                    <button type="submit" class="btn btn-success"><i class="bi bi-save"></i> Salveaza Modificarile</button>
+                    <a asp-page="./IndexPachet" asp-route-id_pachet="@Model.Pachet.id_pachet" class="btn btn-outline-secondary">Anuleaza</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+
+    <script>
+        function toggleFormFields() {
+            var expNou = document.getElementById('expNou').checked;
+            var destNou = document.getElementById('destNou').checked;
+
+            if (expNou) {
+                document.getElementById('divExpNume').classList.remove('d-none');
+                document.getElementById('divExpPrenume').classList.remove('d-none');
+            } else {
+                document.getElementById('divExpNume').classList.add('d-none');
+                document.getElementById('divExpPrenume').classList.add('d-none');
+            }
+
+            if (destNou) {
+                document.getElementById('divDestNume').classList.remove('d-none');
+                document.getElementById('divDestPrenume').classList.remove('d-none');
+            } else {
+                document.getElementById('divDestNume').classList.add('d-none');
+                document.getElementById('divDestPrenume').classList.add('d-none');
+            }
+        }
+
+        function schimbaPeClientNou(tip) {
+            if (tip === 'expeditor') {
+                document.getElementById('expNou').checked = true;
+                document.getElementById('alertInexistentExpeditor').classList.add('d-none');
+            }
+            else if (tip === 'destinatar') {
+                document.getElementById('destNou').checked = true;
+                document.getElementById('alertInexistentDestinatar').classList.add('d-none');
+            }
+
+            toggleFormFields();
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const radioExpeditor = document.querySelectorAll('input[type="radio"][name="TipExpeditor"]');
+            const radioDestinatar = document.querySelectorAll('input[type="radio"][name="TipDestinatar"]');
+
+            radioExpeditor.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const alertSupExpeditor = document.getElementById('alertSuprascriereExpeditor');
+                    const alertInexExpeditor = document.getElementById('alertInexistentExpeditor');
+
+                    if (alertSupExpeditor) alertSupExpeditor.classList.add('d-none');
+                    if (alertInexExpeditor) alertInexExpeditor.classList.add('d-none');
+
+                    const chkExpeditor = document.getElementById('chkExpeditor');
+                    const chkInexistentExpeditor = document.getElementById('chkInexistentExpeditor');
+
+                    if (chkExpeditor) chkExpeditor.checked = false;
+                    if (chkInexistentExpeditor) chkInexistentExpeditor.checked = false;
+
+                    const eroareEmailExpeditor = document.querySelector('[data-valmsg-for="Pachet.email_expeditor"]');
+                    if (eroareEmailExpeditor) {
+                        eroareEmailExpeditor.innerHTML = '';
+                    }
+                })
+            })
+
+            radioDestinatar.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const alertSupDestinatar = document.getElementById("alertSuprascriereDestinatar");
+                    const alertInexDestinatar = document.getElementById("alertInexistentDestinatar");
+
+                    if (alertSupDestinatar) alertSupDestinatar.classList.add('d-none');
+                    if (alertInexDestinatar) alertInexDestinatar.classList.add('d-none');
+
+                    const chkDestinatar = document.getElementById('chkDestinatar');
+                    const chkInexistentDestinatar = document.getElementById('chkInexistentDestinatar');
+
+                    if (chkDestinatar) chkDestinatar.checked = false;
+                    if (chkInexistentDestinatar) chkInexistentDestinatar.checked = false;
+
+                    const eroareEmailExpeditor = document.querySelector('[data-valmsg-for="Pachet.email_destinatar"]');
+                    if (eroareEmailExpeditor) {
+                        eroareEmailExpeditor.innerHTML = '';
+                    }
+                })
+            })
+        })
+
+        document.addEventListener("DOMContentLoaded", function() {
+            toggleFormFields();
+
+            var tomSelectConfig = {
+                valueField: 'email',
+                labelField: 'email',
+                searchField: 'email',
+                create: true,
+                maxItems: 1,
+                persist: false,
+                onItemRemove: function(value){
+                    this.removeOption(value);
+                },
+                placeholder: 'Tastati pentru a cauta un email...',
+                render: {
+                    option_create: function(data, escape) {
+                        return '<div class="create text-primary">Adauga email nou: <strong>' + escape(data.input) + '</strong></div>';
+                    },
+                    no_results: function(data, escape) {
+                        return '<div class="no-results text-muted">Nu am gasit acest client.</div>';
+                    }
+                },
+                load: function(query, callback) {
+                    if (!query.length) return callback();
+
+                    fetch(`?handler=CautareEmail&q=${encodeURIComponent(query)}`)
+                        .then(response => response.json())
+                        .then(json => {
+                            callback(json);
+                        }).catch(() => {
+                            callback();
+                        });
+                }
+            };
+
+            new TomSelect('#Pachet_email_expeditor', tomSelectConfig);
+            new TomSelect('#Pachet_email_destinatar', tomSelectConfig);
+        });
+    </script>
+}

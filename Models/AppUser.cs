@@ -4,6 +4,5 @@ namespace PacheteAPP.Models
 {
     public class AppUser : IdentityUser<int>
     {
-
     }
 }

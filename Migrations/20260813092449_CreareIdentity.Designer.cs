@@ -444,8 +444,6 @@ namespace PacheteAPP.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<DateTime>("data_inregistrare")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("descriere")
                         .IsRequired()
