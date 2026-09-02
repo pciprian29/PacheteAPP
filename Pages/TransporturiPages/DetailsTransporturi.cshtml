@@ -1,0 +1,37 @@
+﻿@page
+@model PacheteAPP.Pages.TransporturiPages.DetailsTransporturiModel
+@{
+    ViewData["Title"] = "Detalii Transport";
+}
+
+<div class="container mt-4">
+    <h2>Detalii Transport</h2>
+    <hr />
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">ID Transport</dt>
+                <dd class="col-sm-9">@Model.Transport.id_transport</dd>
+
+                <dt class="col-sm-3">Numar Auto</dt>
+                <dd class="col-sm-9">@Model.Transport.numar_auto</dd>
+
+                <dt class="col-sm-3">Sofer</dt>
+                <dd class="col-sm-9">@Model.UsernameCurent</dd>
+
+                <dt class="col-sm-3">Ruta</dt>
+                <dd class="col-sm-9">@Model.Transport.Ruta?.cod_ruta</dd>
+
+                <dt class="col-sm-3">Data Plecare</dt>
+                <dd class="col-sm-9">@Model.Transport.data_plecare.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                <dt class="col-sm-3">Data Finalizare</dt>
+                <dd class="col-sm-9">@Model.Transport.data_finalizare?.ToString("dd/MM/yyyy HH:mm")</dd>
+            </dl>
+        </div>
+    </div>
+    <div class="mt-4">
+        <a asp-page="./EditTransporturi" asp-route-id="@Model.Transport.id_transport" class="btn btn-warning">Editeaza</a>
+        <a asp-page="./IndexTransporturi" class="btn btn-secondary ms-2">Inapoi la Lista</a>
+    </div>
+</div>

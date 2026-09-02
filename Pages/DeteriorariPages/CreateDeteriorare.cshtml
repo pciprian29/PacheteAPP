@@ -1,0 +1,97 @@
+﻿@page 
+@model PacheteAPP.Pages.DeteriorariPages.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+@* link css tom select *@
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
+
+<h1 class="h3 mb-4">Deteriorare noua</h1>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none" data-val-summary></div>
+                    <h2 class="h6 text-uppercase text-muted mb-3">Formular Informatii Lipsa</h2>
+                    <div class="row g-3 mb-4">
+                        @if (string.IsNullOrEmpty(Model.PachetAwb))
+                        {
+                            <div class="col-md-6">
+                                <label asp-for="PachetAwb" class="form-label">AWB-ul Pachetului</label>
+                                <select asp-for="PachetAwb" id="select-awb" class="form-select" placeholder="Tastati pentru a cauta AWB-ul..."></select>
+                                <span asp-validation-for="PachetAwb" class="text-danger small"></span>
+                            </div>
+                        }
+                        else
+                        {
+                            <input type="hidden" asp-for="PachetAwb" />
+                            <div class="col-md-6 d-flex align-items-center">
+                                <span class="text-muted">
+                                    Adaugi o deteriorare pentru AWB: <strong class="text-primary">@Model.PachetAwb</strong>
+                                </span>
+                            </div>
+                        }
+                        <div class="col-12">
+                            <label asp-for="Deteriorare.locatie_deteriorare" class="form-label">Locatia Deteriorarii</label>
+                            <input asp-for="Deteriorare.locatie_deteriorare" class="form-control" aria-required="true" />
+                            <span asp-validation-for="Deteriorare.locatie_deteriorare" class="text-danger small"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="Deteriorare.descriere_deteriorare" class="form-label">Descrierea Deteriorarii</label>
+                            <input asp-for="Deteriorare.descriere_deteriorare" class="form-control" aria-required="true" />
+                            <span asp-validation-for="Deteriorare.descriere_deteriorare" class="text-danger small"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Creeaza Deteriorare</button>
+                        <a asp-page="./Index" class="btn btn-outline-secondary">Anuleaza</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <!-- JS Tom Select -->
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            new TomSelect('#select-awb', {
+                valueField: 'awb',   
+                labelField: 'awb',  
+                searchField: 'awb',  
+                create: false,       
+                maxItems: 1,
+                placeholder: 'Incepeți sa tastati AWB-ul...',
+                render: {
+                    no_results: function(data, escape) {
+                        return '<div class="no-results text-danger px-2 py-1">Nu am gasit niciun pachet cu acest AWB.</div>';
+                    }
+                },
+                load: function(query, callback) {
+                    if (!query.length) return callback();
+
+                    fetch(`?handler=CautareAwb&q=${encodeURIComponent(query)}`)
+                        .then(response => response.json())
+                        .then(json => {
+                            callback(json);
+                        }).catch(() => {
+                            callback();
+                        });
+                }
+            });
+
+        });
+    </script>
+}

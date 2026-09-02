@@ -1,0 +1,125 @@
+﻿@page
+@model PacheteAPP.Pages.TransporturiPages.EditTransporturiModel
+@{
+    ViewData["Title"] = "Editare Transport";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
+
+<div class="container mt-4">
+    <h2>Editare Transport #@Model.Transport.id_transport</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Transport.id_transport" />
+
+                <div class="form-group mb-3">
+                    <label asp-for="Transport.numar_auto" class="control-label">Numar Auto</label>
+                    <input asp-for="Transport.numar_auto" class="form-control" />
+                    <span asp-validation-for="Transport.numar_auto" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Transport.data_plecare" class="control-label">Data Plecare</label>
+                    <input asp-for="Transport.data_plecare" class="form-control" type="datetime-local" />
+                    <span asp-validation-for="Transport.data_plecare" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Transport.data_finalizare" class="control-label">Data Finalizare</label>
+                    <input asp-for="Transport.data_finalizare" class="form-control" type="datetime-local" />
+                    <span asp-validation-for="Transport.data_finalizare" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Transport.id_ruta" class="control-label">Ruta</label>
+                    <select asp-for="Transport.id_ruta" id="select-ruta" class="form-select">
+                        @if (Model.Transport.id_ruta != 0)
+                        {
+                            <option value="@Model.Transport.id_ruta" selected>@Model.NumeRutaCurenta</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Transport.id_ruta" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Transport.id_user" class="control-label">Sofer</label>
+                    <select asp-for="Transport.id_user" id="select-user" class="form-select">
+                        @if (Model.Transport.id_user != 0)
+                        {
+                            <option value="@Model.Transport.id_user" selected>@Model.UsernameCurent</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Transport.id_user" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Transport.id_status_transport" class="control-label">Status</label>
+                    <select asp-for="Transport.id_status_transport" class="form-select" asp-items="Model.StatusList"></select>
+                    <span asp-validation-for="Transport.id_status_transport" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-4">
+                    <button type="submit" class="btn btn-primary">Salveaza</button>
+                    <a asp-page="./IndexTransporturi" class="btn btn-secondary ms-2">Anuleaza</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            new TomSelect('#select-ruta', {
+                valueField: 'id_ruta',
+                labelField: 'cod_ruta',
+                searchField: 'cod_ruta',
+                create: false,
+                maxItems: 1,
+                placeholder: 'Cauta codul rutei...',
+                render: {
+                    no_results: function(data, escape) {
+                        return '<div class="no-results text-danger px-2 py-1">Nu am gasit nicio ruta.</div>';
+                    }
+                },
+                load: function(query, callback) {
+                    if (!query.length) return callback();
+                    fetch(`?handler=CautareRute&q=${encodeURIComponent(query)}`)
+                        .then(response => response.json())
+                        .then(json => callback(json))
+                        .catch(() => callback());
+                }
+            });
+
+            new TomSelect('#select-user', {
+                valueField: 'id_user',
+                labelField: 'username',
+                searchField: 'username',
+                create: false,
+                maxItems: 1,
+                placeholder: 'Cauta username-ul soferului...',
+                render: {
+                    no_results: function(data, escape) {
+                        return '<div class="no-results text-danger px-2 py-1">Nu am gasit niciun sofer.</div>';
+                    }
+                },
+                load: function(query, callback) {
+                    if (!query.length) return callback();
+                    fetch(`?handler=CautareUseri&q=${encodeURIComponent(query)}`)
+                        .then(response => response.json())
+                        .then(json => callback(json))
+                        .catch(() => callback());
+                }
+            });
+        });
+    </script>
+}

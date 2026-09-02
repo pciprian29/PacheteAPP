@@ -1,0 +1,45 @@
+﻿@page "{id_deteriorare:int}"
+@model PacheteAPP.Pages.DeteriorariPages.EditDeteriorareModel
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="container mt-4">
+    <h1 class="h3 mb-4">Editare Deteriorare</h1>
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-warning">
+                <div class="card-body">
+                    <form method="post">
+                        <input type="hidden" asp-for="Deteriorare.id_deteriorare" />
+                        <input type="hidden" asp-for="PachetAwb" />
+
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none" data-val-summary></div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label text-muted">AWB Pachet (Informativ)</label>
+                                <input class="form-control bg-light" value="@Model.PachetAwb" disabled />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="Deteriorare.locatie_deteriorare" class="form-label fw-bold">Locatie Deterioare</label>
+                                <input asp-for="Deteriorare.locatie_deteriorare" class="form-control" />
+                                <span asp-validation-for="Deteriorare.locatie_deteriorare" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="Deteriorare.descriere_deteriorare" class="form-label">Descrierea Deteriorarii</label>
+                                <textarea asp-for="Deteriorare.descriere_deteriorare" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="Deteriorare.descriere_deteriorare" class="text-danger small"></span>
+                            </div>
+                        <div class="d-flex gap-2 border-top pt-3">
+                            <button type="submit" class="btn btn-success"><i class="bi bi-save"></i> Salveaza Modificarile</button>
+                            <a asp-page="./IndexInfoLipsa" class="btn btn-outline-secondary">Anuleaza</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>

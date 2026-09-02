@@ -1,0 +1,88 @@
+﻿@page
+@model PacheteAPP.Pages.RutePages.EditRuteModel
+@{
+    ViewData["Title"] = "Editeaza Ruta";
+}
+
+<div class="container mt-4">
+    <h2>Editeaza Ruta</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <input type="hidden" asp-for="Ruta.id_ruta" />
+
+                <div class="form-group mb-3">
+                    <label asp-for="Ruta.cod_ruta" class="control-label">Cod Ruta</label>
+                    <input asp-for="Ruta.cod_ruta" class="form-control" readonly />
+                    <span asp-validation-for="Ruta.cod_ruta" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Ruta.id_tip_ruta" class="control-label">Tip Ruta</label>
+                    <select asp-for="Ruta.id_tip_ruta" class="form-select" asp-items="Model.tipuriRute">
+                        <option value="">-- Selecteaza Tipul --</option>
+                    </select>
+                    <span asp-validation-for="Ruta.id_tip_ruta" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Ruta.locatie_plecare" class="control-label">Locatie Plecare</label>
+                    <input asp-for="Ruta.locatie_plecare" class="form-control" />
+                    <span asp-validation-for="Ruta.locatie_plecare" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Ruta.locatie_destinatie" class="control-label">Locatie Destinatie</label>
+                    <input asp-for="Ruta.locatie_destinatie" class="form-control" />
+                    <span asp-validation-for="Ruta.locatie_destinatie" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Salveaza Modificarile" class="btn btn-primary" />
+                    <a asp-page="./IndexRute" class="btn btn-secondary ms-2">Inapoi la lista</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var tipRutaSelect = document.getElementById("Ruta_id_tip_ruta");
+            var locatiePlecareInput = document.getElementById("Ruta_locatie_plecare");
+            var locatieDestinatieInput = document.getElementById("Ruta_locatie_destinatie");
+
+            function autocompleteLocatii(golesteInainte) {
+                if (golesteInainte) {
+                    locatiePlecareInput.value = "";
+                    locatieDestinatieInput.value = "";
+                }
+
+                if (tipRutaSelect.selectedIndex === -1) return;
+
+                var selectedText = tipRutaSelect.options[tipRutaSelect.selectedIndex].text.toLowerCase();
+
+                if (selectedText.includes("colectare")) {
+                    locatiePlecareInput.value = "Expeditori";
+                }
+                else if (selectedText.includes("livrare")) {
+                    locatieDestinatieInput.value = "Destinatari";
+                }
+            }
+
+            tipRutaSelect.addEventListener("change", function() {
+                autocompleteLocatii(true);
+            });
+
+            autocompleteLocatii(false);
+        });
+    </script>
+}

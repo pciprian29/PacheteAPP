@@ -1,0 +1,54 @@
+﻿@page
+@model PacheteAPP.Pages.RutePages.IndexRuteModel
+@{
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Gestionare Rute</h2>
+        <a asp-page="./CreateRute" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Adauga Ruta Noua
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Cod Ruta</th>
+                    <th>Tip Ruta</th>
+                    <th>Locatie Plecare</th>
+                    <th>Locatie Destinatie</th>
+                    <th class="text-center">Actiuni</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Rute != null && Model.Rute.Any())
+                {
+                    foreach (var item in Model.Rute)
+                    {
+                        <tr>
+                            <td><strong>@item.cod_ruta</strong></td>
+                            <td>
+                                <span class="badge bg-secondary">@item.TipRuta?.denumire</span>
+                            </td>
+                            <td>@item.locatie_plecare</td>
+                            <td>@item.locatie_destinatie</td>
+                            <td class="text-center">
+                                <a asp-page="./EditRute" asp-route-id="@item.id_ruta" class="btn btn-sm btn-primary">Editeaza</a>
+                                <a asp-page="./DetailsRute" asp-route-id="@item.id_ruta" class="btn btn-sm btn-info">Detalii</a>
+                                <a asp-page="./DeleteRute" asp-route-id="@item.id_ruta" class="btn btn-sm btn-danger">Sterge</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">Nu exista rute inregistrate in sistem.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

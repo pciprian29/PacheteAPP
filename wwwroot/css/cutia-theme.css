@@ -1,0 +1,285 @@
+﻿/* ============================================================
+   CUTIA THEME — override vizual peste Bootstrap 5
+   Nu adaugă clase noi obligatorii — redefinește componentele
+   Bootstrap deja folosite în aplicație (.card, .btn, .form-control,
+   .navbar, .badge, .table...). Funcționalitatea (asp-for, validare,
+   POST-uri) rămâne neatinsă — acesta e doar "pielea".
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&family=IBM+Plex+Mono:wght@400;500;600;700&family=Special+Elite&display=swap');
+
+:root {
+    --kraft-base: #c7a572;
+    --kraft-dark: #8b6b43;
+    --kraft-shadow: #6e5535;
+    --ink: #3a2817;
+    --ink-soft: #5a4530;
+    --tape-amber: #d4a438;
+    --tape-amber-dark: #b3872a;
+    --stamp-red: #a83a2e;
+    --stamp-green: #3f6b4a;
+    --paper: #ede0c0;
+    --paper-light: #f4ead2;
+    --line: rgba(58,40,23,0.22);
+    /* Bootstrap variable overrides — propagă automat în multe componente */
+    --bs-primary: var(--ink);
+    --bs-primary-rgb: 58,40,23;
+    --bs-body-color: var(--ink);
+    --bs-body-bg: var(--kraft-base);
+    --bs-border-color: var(--line);
+    --bs-link-color: var(--ink);
+    --bs-link-hover-color: var(--stamp-red);
+    --bs-font-sans-serif: 'IBM Plex Mono', monospace;
+}
+
+/* ---------- Bază / fundal carton ---------- */
+body {
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--ink);
+    background: repeating-linear-gradient(90deg, rgba(0,0,0,0.035) 0 2px, transparent 2px 38px), repeating-linear-gradient(0deg, rgba(0,0,0,0.02) 0 2px, transparent 2px 38px), radial-gradient(ellipse at 20% 10%, rgba(255,255,255,0.06), transparent 60%), var(--kraft-base);
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Staatliches', sans-serif;
+    letter-spacing: 0.03em;
+    color: var(--ink);
+}
+
+/* ---------- Navbar → bandă de scotch pe eticheta antetului ---------- */
+.navbar {
+    background: var(--paper) !important;
+    border-bottom: 2px solid var(--ink) !important;
+    box-shadow: 5px 5px 0 rgba(58,40,23,0.35) !important;
+    margin: 14px 12px 20px !important;
+    position: relative;
+    border-radius: 0;
+}
+
+    .navbar::before {
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: 20px;
+        width: 70px;
+        height: 22px;
+        background: var(--tape-amber);
+        opacity: 0.85;
+        transform: rotate(-3deg);
+        box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+    }
+
+    .navbar .container {
+        max-width: 100%;
+    }
+
+.navbar-brand {
+    font-family: 'Staatliches', sans-serif;
+    font-size: 1.8rem;
+    color: var(--ink) !important;
+    letter-spacing: 0.03em;
+}
+
+.navbar .nav-link {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft) !important;
+    border-bottom: 2px solid transparent;
+    transition: border-color .15s;
+}
+
+    .navbar .nav-link:hover, .navbar .nav-link.active {
+        color: var(--ink) !important;
+        border-bottom-color: var(--tape-amber-dark);
+    }
+
+.navbar-toggler {
+    border-color: var(--ink) !important;
+}
+
+/* ---------- Carduri = cutii de carton ---------- */
+.card {
+    background: var(--paper-light) !important;
+    border: 2px solid var(--ink) !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 rgba(58,40,23,0.3) !important;
+}
+
+.card-header {
+    background: var(--paper) !important;
+    border-bottom: 2px solid var(--ink) !important;
+    font-family: 'Staatliches', sans-serif;
+    letter-spacing: 0.03em;
+}
+
+/* ---------- Butoane ---------- */
+.btn {
+    border-radius: 2px;
+    font-family: 'Staatliches', sans-serif;
+    letter-spacing: 0.04em;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background-color: var(--ink) !important;
+    border-color: var(--ink) !important;
+    color: var(--paper-light) !important;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.25);
+}
+
+    .btn-primary:hover, .btn-primary:focus {
+        background-color: var(--ink-soft) !important;
+        border-color: var(--ink-soft) !important;
+    }
+
+    .btn-primary:active {
+        transform: translate(2px,2px);
+        box-shadow: 1px 1px 0 rgba(0,0,0,0.25) !important;
+    }
+
+.btn-secondary, .btn-outline-secondary {
+    background: transparent !important;
+    border: 2px solid var(--ink) !important;
+    color: var(--ink) !important;
+    box-shadow: none !important;
+}
+
+    .btn-secondary:hover, .btn-outline-secondary:hover {
+        background: var(--ink) !important;
+        color: var(--paper-light) !important;
+    }
+
+.btn-danger {
+    background-color: var(--stamp-red) !important;
+    border-color: var(--stamp-red) !important;
+}
+
+.btn-success {
+    background-color: var(--stamp-green) !important;
+    border-color: var(--stamp-green) !important;
+}
+
+/* ---------- Formulare — hârtie kraft, bordură jos ---------- */
+.form-control, .form-select {
+    font-family: 'IBM Plex Mono', monospace;
+    background-color: var(--paper) !important;
+    border: none !important;
+    border-bottom: 2px solid var(--ink) !important;
+    border-radius: 0 !important;
+    color: var(--ink) !important;
+}
+
+    .form-control:focus, .form-select:focus {
+        background-color: #fff8e6 !important;
+        outline: 2px solid var(--tape-amber-dark);
+        outline-offset: 1px;
+        box-shadow: none !important;
+    }
+
+.form-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+}
+
+.input-group-text {
+    background: var(--kraft-base) !important;
+    border: none !important;
+    border-bottom: 2px solid var(--ink) !important;
+    border-radius: 0 !important;
+    color: var(--ink) !important;
+}
+
+/* ---------- Tabele — manifest de transport ---------- */
+.table {
+    background: var(--paper-light);
+    border: 2px solid var(--ink);
+}
+
+    .table thead {
+        font-family: 'Staatliches', sans-serif;
+        letter-spacing: 0.04em;
+        background: var(--paper);
+        border-bottom: 2px solid var(--ink);
+    }
+
+    .table td, .table th {
+        border-color: var(--line) !important;
+        vertical-align: middle;
+    }
+
+.table-hover tbody tr:hover {
+    background-color: rgba(212,164,56,0.15);
+}
+
+/* ---------- Badge-uri de status → ștampile de cerneală ---------- */
+.badge {
+    font-family: 'Staatliches', sans-serif;
+    background: none !important;
+    border: 2.5px solid currentColor;
+    padding: 3px 10px 1px;
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    transform: rotate(-4deg);
+    border-radius: 3px;
+    display: inline-block;
+}
+
+    .badge.bg-success, .badge.text-bg-success {
+        color: var(--stamp-green) !important;
+    }
+
+    .badge.bg-danger, .badge.text-bg-danger {
+        color: var(--stamp-red) !important;
+    }
+
+    .badge.bg-warning, .badge.text-bg-warning {
+        color: var(--tape-amber-dark) !important;
+    }
+
+    .badge.bg-secondary, .badge.text-bg-secondary {
+        color: var(--ink-soft) !important;
+    }
+
+/* ---------- Alerte / validare ---------- */
+.alert-danger, .text-danger {
+    color: var(--stamp-red) !important;
+}
+
+.alert {
+    border-radius: 0;
+    border: 2px solid currentColor;
+    background: var(--paper-light);
+}
+
+/* ---------- Footer ---------- */
+.footer {
+    background: transparent;
+    border-top: 2px dashed var(--line) !important;
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+}
+
+    .footer a {
+        color: var(--ink);
+    }
+
+/* ---------- Buton "Înapoi" fix ---------- */
+.btn.position-fixed {
+    font-family: 'Staatliches', sans-serif;
+    background: var(--tape-amber) !important;
+    border: 2px solid var(--ink) !important;
+    color: var(--ink) !important;
+    box-shadow: 3px 3px 0 rgba(58,40,23,0.3) !important;
+}
+
+/* ---------- Link-uri generice ---------- */
+a {
+    color: var(--ink);
+}
+
+    a:hover {
+        color: var(--stamp-red);
+    }

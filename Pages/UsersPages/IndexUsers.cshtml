@@ -1,0 +1,61 @@
+﻿@page
+@model PacheteAPP.Pages.UsersPages.IndexUsersModel
+@{
+    ViewData["Title"] = "Lista Utilizatori";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Gestionare Utilizatori si Roluri</h2>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-striped table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID User</th>
+                        <th>Nume Utilizator</th>
+                        <th>ID Rol</th>
+                        <th>Nume Rol</th>
+                        <th>Actiuni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.ListaUseri != null && Model.ListaUseri.Any())
+                    {
+                        foreach (var item in Model.ListaUseri)
+                        {
+                            <tr>
+                                <td>@item.id_user</td>
+                                <td>@item.UserName</td>
+                                <td>@(item.id_rol.HasValue ? item.id_rol.Value.ToString() : "-")</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.nume_rol))
+                                    {
+                                        <span class="badge bg-primary">@item.nume_rol</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Fara Rol</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a asp-page="./EditRolUsers" asp-route-id="@item.id_user" class="btn btn-sm btn-primary">
+                                        Modifica Rolul    
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center py-4 text-muted">Nu s-a gasit niciun utilizator.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

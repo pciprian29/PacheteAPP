@@ -1,0 +1,147 @@
+﻿@page
+@model PacheteAPP.Pages.InfoLipsaPages.IndexModel
+
+@{
+    ViewData["Title"] = "InformatiiLipsa";
+}
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+<h1>Lista Informatii Lipsa</h1>
+
+<p>
+    @if((await AuthorizationService.AuthorizeAsync(User, "CanCreate")).Succeeded)
+    {
+        <a asp-page="CreateInfoLipsa" class="btn btn-sm btn-outline-primary">Creeaza Informatie Lipsa Noua</a>
+    }
+</p>
+
+<form method="get" class="mb-4">
+    <div class="row g-3">
+        <div class="col-md-2">
+            <input type="text" name="searchAwb" value="@Model.searchAwbCurent" class="form-control" placeholder="Cauta dupa AWB" />
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="searchCamp" value="@Model.searchCampCurent" class="form-control" placeholder="Cauta dupa Camp Afectat" />
+        </div>
+        <div class="col-md-2">
+            <input type="text" name="searchUtilizator" value="@Model.searchUtilizatorCurent" class="form-control" placeholder="Cauta dupa Utilizator" />
+        </div>
+
+        <div class="col-md-2">
+            <select name="filtru" class="form-select">
+                <option value="">Orice Tip Lipsa</option>
+                <option value="Lipsa" selected="@(Model.filtruTipCurent == "Lipsa" ? "selected" : null)">Lipsa</option>
+                <option value="Partial" selected="@(Model.filtruTipCurent == "Partial" ? "selected" : null)">Partial</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Aplica Filtre</button>
+        </div>
+        <div class="col-md-1">
+            <a href="?" class="btn btn-outline-secondary w-100">Reset</a>
+        </div>
+    </div>
+    <input type="hidden" name="sort" value="@Model.sortCurent" />
+</form>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>
+                <a href="?p=1&sort=@(Model.sortCurent == "awb_asc" ? "awb_des" : "awb_asc")&searchAwb=@Model.searchAwbCurent&searchCamp=@Model.searchCampCurent&searchUtilizator=@Model.searchUtilizatorCurent&filtru=@Model.filtruTipCurent" class="text-decoration-none text-dark">
+                    AWB @(Model.sortCurent == "awb_asc" ? "↑" : Model.sortCurent == "awb_des" ? "↓" : "")
+                </a>
+            </th>
+            <th>Camp Lipsa</th>
+            <th>Tip Lipsa</th>
+            <th>
+                <a href="?p=1&sort=@(Model.sortCurent == "data_asc" ? "data_des" : "data_asc")&searchAwb=@Model.searchAwbCurent&searchCamp=@Model.searchCampCurent&searchUtilizator=@Model.searchUtilizatorCurent&filtru=@Model.filtruTipCurent" class="text-decoration-none text-dark">
+                    Data Inregistrare @(Model.sortCurent == "data_asc" ? "↑" : Model.sortCurent == "data_des" ? "↓" : "")
+                </a>
+            </th>
+            <th>
+                <a href="?p=1&sort=@(Model.sortCurent == "utilizator_asc" ? "utilizator_des" : "utilizator_asc")&searchAwb=@Model.searchAwbCurent&searchCamp=@Model.searchCampCurent&searchUtilizator=@Model.searchUtilizatorCurent&filtru=@Model.filtruTipCurent" class="text-decoration-none text-dark">
+                    Utilizator @(Model.sortCurent == "utilizator_asc" ? "↑" : Model.sortCurent == "utilizator_des" ? "↓" : "")
+                </a>
+            </th>
+            <th>Actiuni</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.InformatiiLipsa)
+        {
+            <tr>
+                <td>@item.awb</td>
+                <td>@item.camp_afectat</td>
+                <td>@item.tip_lipsa</td>
+                <td>@item.data_inregistrare</td>
+                <td>@item.utilizator_inregistrare</td>
+                <td>
+                    @if((await AuthorizationService.AuthorizeAsync(User, "CanView")).Succeeded)
+                    {
+                        <a asp-page="./DetailsInfoLipsa" asp-route-id_info_lipsa="@item.id_info_lipsa" class="btn btn-sm btn-secondary">Detalii</a>
+                    }
+                    @if((await AuthorizationService.AuthorizeAsync(User, "CanEdit")).Succeeded)
+                    {
+                        <a asp-page="./EditInfoLipsa" asp-route-id_info_lipsa="@item.id_info_lipsa" class="btn btn-sm btn-primary">Editeaza</a>
+                    }
+                    @if((await AuthorizationService.AuthorizeAsync(User, "CanDelete")).Succeeded)
+                    {
+                        <a asp-page="./DeleteInfoLipsa" asp-route-id_info_lipsa="@item.id_info_lipsa" class="btn btn-sm btn-danger">Sterge</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @(Model.paginaCurenta <= 1 ? "disabled" : "")">
+            <a class="page-link" href="?p=1"> &laquo;&laquo; </a>
+        </li>
+
+        <li class="page-item @(Model.paginaCurenta <= 1 ? "disabled" : "")">
+            <a class="page-link" href="?p=@(Model.paginaCurenta - 1)"> &lt; </a>
+        </li>
+
+        @{
+            int maxButoane = 5;
+            int startPage = Math.Max(1, Model.paginaCurenta - 2);
+            int endPage = Math.Min(Model.paginiTotale, Model.paginaCurenta + 2);
+
+            if (endPage - startPage < maxButoane - 1 && Model.paginiTotale >= maxButoane)
+            {
+                if (startPage == 1)
+                    endPage = maxButoane;
+                else if (endPage == Model.paginiTotale)
+                    startPage = Model.paginiTotale - maxButoane + 1;
+            }
+        }
+
+        @if (startPage > 1)
+        {
+            <li class="page-item disabled"><span class="page-link">...</span></li>
+        }
+
+        @for (int i = startPage; i <= endPage; i++)
+        {
+            <li class="page-item @(i == Model.paginaCurenta ? "active" : "")">
+                <a class="page-link" href="?p=@i">@i</a>
+            </li>
+        }
+
+        @if (endPage < Model.paginiTotale)
+        {
+            <li class="page-item disabled"><span class="page-link">...</span></li>
+        }
+
+        <li class="page-item @(Model.paginaCurenta >= Model.paginiTotale ? "disabled" : "")">
+            <a class="page-link" href="?p=@(Model.paginaCurenta + 1)"> &gt; </a>
+        </li>
+
+        <li class="page-item @(Model.paginaCurenta >= Model.paginiTotale ? "disabled" : "")">
+            <a class="page-link" href="?p=@Model.paginiTotale"> &raquo;&raquo; </a>
+        </li>
+    </ul>
+</nav>

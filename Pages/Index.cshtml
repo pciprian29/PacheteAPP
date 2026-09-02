@@ -1,10 +1,57 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Acasa";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-6 fw-bold mb-3">Bun venit la PachetAPP</h1>
+        <p class="text-muted fs-5">Selecteaza o categorie pentru a gestiona inregistrarile</p>
+    </div>
+
+    <div class="row g-4 mx-auto" style="max-width: 800px;">
+
+        <div class="col-md-6">
+            <a asp-page="/PachetPages/IndexPachet"
+               class="btn btn-outline-primary w-100 py-4 shadow-sm border-2 rounded-3 d-flex align-items-center justify-content-center">
+                <span class="fs-5 fw-semibold">Pachete</span>
+            </a>
+        </div>
+
+        <div class="col-md-6">
+            <a asp-page="/InfoLipsaPages/IndexInfoLipsa"
+               class="btn btn-outline-warning w-100 py-4 shadow-sm border-2 rounded-3 d-flex align-items-center justify-content-center"
+               style="color: #000;">
+                <span class="fs-5 fw-semibold">Informatii Lipsa</span>
+            </a>
+        </div>
+
+        <div class="col-md-6">
+            <a asp-page="/DeteriorariPages/IndexDeteriorare"
+               class="btn btn-outline-danger w-100 py-4 shadow-sm border-2 rounded-3 d-flex align-items-center justify-content-center">
+                <span class="fs-5 fw-semibold">Deteriorari</span>
+            </a>
+        </div>
+
+        <div class="col-md-6">
+            <a asp-page="/IstoricPages/IndexIstoricModificari"
+               class="btn btn-outline-secondary w-100 py-4 shadow-sm border-2 rounded-3 d-flex align-items-center justify-content-center">
+                <span class="fs-5 fw-semibold">Istoric Modificari</span>
+            </a>
+        </div>
+        <div class="col-md-6">
+            <a asp-page="/RutePages/IndexRute"
+               class="btn btn-outline-secondary w-100 py-4 shadow-sm border-2 rounded-3 d-flex align-items-center justify-content-center">
+                <span class="fs-5 fw-semibold">Gestionare Rute</span>
+            </a>
+        </div>
+        <div class="col-md-6">
+            <a asp-page="/TransporturiPages/IndexTransporturi"
+               class="btn btn-outline-secondary w-100 py-4 shadow-sm border-2 rounded-3 d-flex align-items-center justify-content-center">
+                <span class="fs-5 fw-semibold">Gestionare Transporturi</span>
+            </a>
+        </div>
+
+    </div>
 </div>

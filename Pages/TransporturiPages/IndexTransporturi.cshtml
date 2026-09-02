@@ -1,0 +1,84 @@
+﻿@page
+@model PacheteAPP.Pages.TransporturiPages.IndexTransporturiModel
+@{
+}
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Gestionare Transporturi</h2>
+        <a asp-page="./CreateTransporturi" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Adauga Transport Nou
+        </a>
+    </div>
+
+    <div class="table-responsive mt-3">
+        <table class="table table-hover table-bordered align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID / Masina</th>
+                    <th>Sofer (User)</th>
+                    <th>Ruta (P -> D)</th>
+                    <th>Data Plecare</th>
+                    <th>Status</th>
+                    <th class="text-center">Nr. Pachete</th>
+                    <th class="text-center">Actiuni</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Transport != null && Model.Transport.Any())
+                {
+                    foreach (var item in Model.Transport)
+                    {
+                        <tr>
+                            <td><strong>@item.id_transport</strong><br />@item.numar_auto</td>
+                            <td>@item.UserName</td>
+                            <td>
+                                <span class="badge bg-info text-dark">@item.cod_ruta</span><br />
+                                <small class="text-muted">@item.locatie_plecare -> @item.locatie_destinatie</small>
+                            </td>
+                            <td>
+                                @item.data_plecare.ToString("dd/MM/yyyy HH:mm")
+                                @if (item.data_finalizare != null)
+                                {
+                                    <br /><small class="text-success">Finalizat: @item.data_finalizare?.ToString("dd/MM/yyyy")</small>
+                                }
+                            </td>
+                            <td>
+                                <span class="badge bg-primary">@item.status_transport</span>
+                            </td>
+                            <td class="text-center">
+                                <strong>@item.numar_pachete</strong><br />
+                                <a asp-page="./AlocarePachete" asp-route-id="@item.id_transport" class="btn btn-sm btn-outline-primary mt-1">
+                                    Adauga Pachete
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <a asp-page="./EditTransporturi" asp-route-id="@item.id_transport" class="btn btn-sm btn-primary">Edit</a>
+                                    <a asp-page="./DetailsTransporturi" asp-route-id="@item.id_transport" class="btn btn-sm btn-secondary">Detalii</a>
+                                    <a asp-page="./DeleteTransporturi" asp-route-id="@item.id_transport" class="btn btn-sm btn-danger">Sterge</a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr id="details-row-@item.id_transport" class="d-none bg-light">
+                            <td colspan="8">
+                                <div class="p-3 border rounded bg-white shadow-sm" id="details-content-@item.id_transport">
+                                    <div class="text-center text-muted">
+                                        Se incarca pachetele...
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="text-center text-muted">Nu s-a gasit niciun transport.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
