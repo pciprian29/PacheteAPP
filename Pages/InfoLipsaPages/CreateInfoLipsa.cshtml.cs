@@ -23,9 +23,11 @@ namespace PacheteAPP.Pages.InfoLipsaPages
 
         [BindProperty(SupportsGet = true)]
         public string PachetAwb { get; set; }
+        [BindProperty]
+        public bool esteAwbLipsa { get; set; }
 
         [BindProperty]
-         public InformatieLipsa InformatieLipsa { get; set; } = default!;
+        public InformatieLipsa InformatieLipsa { get; set; } = default!;
         public IActionResult OnGet(string awb)
         {
             if (!string.IsNullOrEmpty(awb))
@@ -51,7 +53,13 @@ namespace PacheteAPP.Pages.InfoLipsaPages
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            if(!ModelState.IsValid)
+
+            if (esteAwbLipsa == true)
+            {
+                ModelState.Remove("PachetAwb");
+            }
+
+            if (!ModelState.IsValid)
             {
                 foreach (var key in ModelState.Keys)
                 {
@@ -63,58 +71,71 @@ namespace PacheteAPP.Pages.InfoLipsaPages
                 }
                 return Page();
             }
-            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var userIdInt = int.Parse(userIdString);
 
-            var PachetId = await _context.Pachete
-                .Where(p => p.awb == PachetAwb)
-                .Select(p => p.id_pachet)
-                .FirstOrDefaultAsync();
-            if (PachetId == 0)
+            if (esteAwbLipsa == true)
             {
-                ModelState.AddModelError("PachetAwb", "AWB-ul nu exista. Te rugam sa folosesti sugestiile din lista");
-                return Page();
+                InformatieLipsa.camp_afectat = "AWB";
+                _context.InformatiiLipsa.Add(InformatieLipsa);
+                await _context.SaveChangesAsync();
+
+                return RedirectToPage("./IndexInfoLipsa");
             }
-            var pachet = await _context.Pachete.FindAsync(PachetId);
-
-            if (pachet != null)
+            else
             {
-                string? numeStatusCurent = await _context.StatusPachet
-                    .Where(s => s.id_status_pachet == pachet.id_status_pachet)
-                    .Select(s => s.denumire)
+
+                var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var userIdInt = int.Parse(userIdString);
+
+                var PachetId = await _context.Pachete
+                    .Where(p => p.awb == PachetAwb)
+                    .Select(p => p.id_pachet)
                     .FirstOrDefaultAsync();
-
-                int noulStatusId = pachet.id_status_pachet;
-
-                if (numeStatusCurent == "Deteriorat")
+                if (PachetId == 0)
                 {
-                    noulStatusId = 6;
+                    ModelState.AddModelError("PachetAwb", "AWB-ul nu exista. Te rugam sa folosesti sugestiile din lista");
+                    return Page();
                 }
-                else if (numeStatusCurent != "InformatiiLipsa" && numeStatusCurent != "Deteriorat+InfoLipsa")
-                {
-                    noulStatusId = 5;
-                }
+                var pachet = await _context.Pachete.FindAsync(PachetId);
 
-                if (pachet.id_status_pachet != noulStatusId)
+                if (pachet != null)
                 {
-                    pachet.id_status_pachet = noulStatusId;
+                    string? numeStatusCurent = await _context.StatusPachet
+                        .Where(s => s.id_status_pachet == pachet.id_status_pachet)
+                        .Select(s => s.denumire)
+                        .FirstOrDefaultAsync();
+
+                    int noulStatusId = pachet.id_status_pachet;
+
+                    if (numeStatusCurent == "Deteriorat")
+                    {
+                        noulStatusId = 6;
+                    }
+                    else if (numeStatusCurent != "InformatiiLipsa" && numeStatusCurent != "Deteriorat+InfoLipsa")
+                    {
+                        noulStatusId = 5;
+                    }
+
+                    if (pachet.id_status_pachet != noulStatusId)
+                    {
+                        pachet.id_status_pachet = noulStatusId;
+                    }
                 }
+                var inregistrareNoua = new Inregistrare
+                {
+                    id_pachet = PachetId,
+                    id_tip_inregistrare = 2,
+                    id_user = userIdInt,
+                };
+
+                _context.Inregistrari.Add(inregistrareNoua);
+                await _context.SaveChangesAsync();
+
+                InformatieLipsa.id_inregistrare = inregistrareNoua.id_inregistrare;
+                _context.InformatiiLipsa.Add(InformatieLipsa);
+                await _context.SaveChangesAsync();
+
+                return RedirectToPage("./IndexInfoLipsa");
             }
-            var inregistrareNoua = new Inregistrare
-            {
-                id_pachet = PachetId,
-                id_tip_inregistrare = 2,
-                id_user = userIdInt,
-            };
-
-            _context.Inregistrari.Add(inregistrareNoua);
-            await _context.SaveChangesAsync();
-
-            InformatieLipsa.id_inregistrare = inregistrareNoua.id_inregistrare;
-            _context.InformatiiLipsa.Add(InformatieLipsa);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./IndexInfoLipsa");
         }
     }
 }

@@ -12,8 +12,8 @@ namespace PacheteAPP.Models.Views
         public string tip_lipsa { get; set; }
         public int? id_inregistrare { get; set; }
         public DateTime? data_inregistrare { get; set; }
-        public string tip_inregistrare { get; set; }
-        public string awb { get; set; }
-        public string utilizator_inregistrare { get; set; }
+        public string? tip_inregistrare { get; set; }
+        public string? awb { get; set; }
+        public string? utilizator_inregistrare { get; set; }
     }
 }

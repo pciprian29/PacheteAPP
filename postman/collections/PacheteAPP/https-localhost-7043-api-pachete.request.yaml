@@ -1,0 +1,52 @@
+$kind: http-request
+name: https://localhost:7043/api/pachete
+description: ""
+url: https://localhost:7043/api/pachete
+method: POST
+headers:
+  Content-Type: application/json
+  Cookie: .AspNetCore.Identity.Application=CfDJ8KUs_L4DlZ1JkRlNX0IaAZjbj6RdNnNis-sQWr8_gwybTdrUIwWYTjLhG79VtW3jhS-Sz5Vl9-Wnl1vGFL5DSAvXAtWGbKBYWQZ3K0DGDfoMASmzx9JmZRP41w8kCugY6TNfvOMooqr1y_x34n1QlHdW4dMzl_TYRTvc51elmUPYE7UcRnfFjh6MkSOFRRxzgZgXxeHPPkgZOXq1vOFRZ7aqHCf3d8v6WlmyEpBwQIgkTKWodCsSIvw0A3-5FOlYgcFxPpz4eIDzKbc5k3ahA_BV9LRAkty9izLXsYgcXBRz0As_nNp4MxCVnTxnxer_LvJdLJnVOqPwmyJvD0dk2M8nSInSMypRvRUKrBGYAxix51V81xSFl7ZpmNgnDRUGO4s5v3sdwiNi0fm2p-exMx6w2JEBBJoev9OihR94e5e2poxOq6FFQY0ohelO7Lp4EzYGqvW4cBCN_alZ1dRlCXLbEq4Uy-snTmRxYoqUdgiwwwx68eHMIh4K_cL2AyTOiLKbWXD_Df6dKgJqCmCUY3TWglqhCStowcJj1duCNuc9ucnOzgO52MAhGMfwVvRQ9c9b79SjvF225KpCvfkYrOcTfsx-dz2kq6_0j3xnY1_B9HbSioK56AtAhprGV8ejj2HY_aWWCR5cbt8Ev2WNcoko9mUWwIH3UOUsGmwRzVhzK5lB0WgbRw5FwaLhKsh8pbIjgfDFZ5GZ1GkEb9LzPptNWaflvHXElz1q25yrD-iE07EXDY9Ga630iwJOo9iNYIzHibMJNtQOcWOye8n9zfWT_9o2cdIFHLrnu8KUx_rYCjOomd2lZgjTJOzyEN9fmK0FzprcLU8AJbF0SEo2NfUiU_ineXkZ1VOAhDdC1zcS
+body:
+  type: json
+  content: "{\r
+
+    \  \"idTipPachet\": 1,\r
+
+    \  \"descriere\": \"Colet test2\",\r
+
+    \  \"greutateTeoretica\": 2.5,\r
+
+    \  \"greutateEfectiva\": 2.7,\r
+
+    \  \"tipExpeditor\": \"existent\",\r
+
+    \  \"emailExpeditor\": \"pciprian_292@yahoo.com\",\r
+
+    \  \"adresaExpeditor\": \"Str. Justitiei 57\",\r
+
+    \  \"numeExpeditor\": null,\r
+
+    \  \"prenumeExpeditor\": null,\r
+
+    \  \"confirmaSuprascriereExpeditor\": false,\r
+
+    \  \"tipDestinatar\": \"existent\",\r
+
+    \  \"emailDestinatar\": \"pciprian2910@gmail.com\",\r
+
+    \  \"adresaDestinatar\": \"Str. Nicolae Titulescu 104\",\r
+
+    \  \"numeDestinatar\": null,\r
+
+    \  \"prenumeDestinatar\": null,\r
+
+    \  \"confirmaSuprascriereDestinatar\": false,\r
+
+    \  \"idStatusPachet\": 1\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoicGNpcHJpYW4yOTEwQGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiUGVybWlzaXVuZSI6WyJWaWV3IiwiQ3JlYXRlIiwiRWRpdCIsIkRlbGV0ZSJdLCJleHAiOjE3ODk1NTE2ODksImlzcyI6IlBhY2hldGVBUFAiLCJhdWQiOiJQYWNoZXRlQVBQLkFuZHJvaWQifQ._eZvlgVfW0dzvHjirtxbR6BsLt2rwptFkisUNwZY-ek
+order: 1788847523347

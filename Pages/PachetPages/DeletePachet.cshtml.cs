@@ -70,7 +70,7 @@ public class DeleteModel : PageModel
                 }
 
                 var informatiilipsa = await _context.InformatiiLipsa
-                    .Where(l => iduriInregistrari.Contains(l.id_inregistrare))
+                    .Where(l => l.id_inregistrare != null && iduriInregistrari.Contains(l.id_inregistrare.Value))
                     .ToListAsync();
 
                 if (informatiilipsa.Any())

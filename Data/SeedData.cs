@@ -14,8 +14,9 @@ namespace PacheteAPP.Data
             string adminRole = "Admin";
             string highUserRole = "HighUser";
             string lowUserRole = "LowUser";
+            string mobileUserRole = "MobileUser";
 
-            if(!await roleManager.RoleExistsAsync(adminRole))
+            if (!await roleManager.RoleExistsAsync(adminRole))
             {
                 var role = new IdentityRole<int>(adminRole);
                 await roleManager.CreateAsync(role);
@@ -41,6 +42,14 @@ namespace PacheteAPP.Data
                 await roleManager.CreateAsync(role);
 
                 await roleManager.AddClaimAsync(role, new Claim("Permisiune", "View"));
+            }
+
+            if(!await roleManager.RoleExistsAsync(mobileUserRole))
+            {
+                var role = new IdentityRole<int>(mobileUserRole);
+                await roleManager.CreateAsync(role);
+
+                await roleManager.AddClaimAsync(role, new Claim("Permisiune", "UseMobileApp"));
             }
 
             string emailAdmin = "pciprian2910@gmail.com";

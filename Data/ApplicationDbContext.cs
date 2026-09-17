@@ -24,6 +24,9 @@ namespace PacheteAPP.Data
         public DbSet<Transport> Transporturi { get; set; }
         public DbSet<PachetTransport> Pachete_Transporturi {  get; set; }
 
+        // Tabela Imagini
+        public DbSet<Imagine> Imagini { get; set; }
+
         // Tabele tip
         public DbSet<StatusPachet> StatusPachet { get; set; }
         public DbSet<TipInregistrare> TipuriInregistrare { get; set; }
@@ -32,6 +35,7 @@ namespace PacheteAPP.Data
         public DbSet<TipRuta> TipuriRute { get; set; }
         public DbSet<StatusTransport> StatusTransporturi { get; set; }
         public DbSet<StatusPachetTransport> StatusPacheteTransporturi { get; set;}
+        public DbSet<TipImagine> TipuriImagini { get; set; }
 
 
         // Tabele Istoric
@@ -188,6 +192,7 @@ namespace PacheteAPP.Data
             builder.Entity<Ruta>().ToTable("Rute", t => t.ExcludeFromMigrations());
             builder.Entity<Transport>().ToTable("Transporturi", t => t.ExcludeFromMigrations());
             builder.Entity<PachetTransport>().ToTable("Pachete_Transporturi", t => t.ExcludeFromMigrations());
+            builder.Entity<Imagine>().ToTable("Imagini", t => t.ExcludeFromMigrations());
             // -- Tabele tip
             builder.Entity<StatusPachet>().ToTable("StatusPachet", t => t.ExcludeFromMigrations());
             builder.Entity<TipPachet>().ToTable("TipPachet", t => t.ExcludeFromMigrations());
@@ -196,6 +201,7 @@ namespace PacheteAPP.Data
             builder.Entity<TipRuta>().ToTable("TipRuta", t => t.ExcludeFromMigrations());
             builder.Entity<StatusTransport>().ToTable("StatusTransport", t => t.ExcludeFromMigrations());
             builder.Entity<StatusPachetTransport>().ToTable("StatusPachetTransport", t => t.ExcludeFromMigrations());
+            builder.Entity<TipImagine>().ToTable("TipImagine", t => t.ExcludeFromMigrations());
             // -- Tabele Istoric
             builder.Entity<IstoricModificari>().ToTable("IstoricModificari", t => t.ExcludeFromMigrations());
             builder.Entity<CampTabel>().ToTable("CampuriTabele", t => t.ExcludeFromMigrations());

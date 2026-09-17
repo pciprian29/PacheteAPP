@@ -21,6 +21,7 @@ namespace PacheteAPP.Pages.DeteriorariPages
         public VwDeteriorariComplet Deteriorare { get; set; } = default!;
 
         public int idPachet { get; set; }
+        public List<Imagine> Imagini { get; set; } = new();
 
         public async Task<IActionResult> OnGetAsync(int? id_deteriorare)
         {
@@ -46,6 +47,14 @@ namespace PacheteAPP.Pages.DeteriorariPages
                     idPachet = pachet.id_pachet;
                 }
             }
+            
+            Imagini = await _context.Imagini
+                .Where(i => i.id_tip_imagine == 2 && i.id_entitate == id_deteriorare)
+                .OrderBy(i => i.data_creare)
+                .ToListAsync();
+
+
+
             return Page();
         }
     }

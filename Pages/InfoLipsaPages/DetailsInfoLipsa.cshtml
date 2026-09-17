@@ -51,5 +51,52 @@
         </div>
 
     </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="mb-0">Imagini (@Model.Imagini.Count)</h5>
+        </div>
+        <div class="card-body">
+            @if (Model.Imagini.Any())
+            {
+                <div class="d-flex flex-wrap gap-2">
+                    @foreach (var img in Model.Imagini)
+                    {
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#modalImagine"
+                           data-img-src="/api/imagini/@img.id_imagine">
+                            <img src="/api/imagini/@img.id_imagine/thumbnail" width="120" height="120"
+                                 style="object-fit: cover;" class="rounded border" alt="Imagine InfoLipsa" />
+                        </a>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="text-muted mb-0">Nicio imagine atasata.</p>
+            }
+        </div>
+    </div>
 </div>
     
+<div class="modal fade" id="modalImagine" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="imagineModalMare" src="" class="img-fluid" alt="Imagine marita" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('modalImagine').addEventListener('show.bs.modal', function(event) {
+            var link = event.relatedTarget;
+            var src = link.getAttribute('data-img-src');
+            document.getElementById('imagineModalMare').setAttribute('src', src);
+        });
+    </script>
+}

@@ -20,7 +20,6 @@ public class DetailsModel : PageModel
 
     public VwPacheteComplet Pachet { get; set; } = default!;
 
-
     public async Task<IActionResult> OnGetAsync(int? id_pachet)
     {
         if (id_pachet is null)
@@ -37,7 +36,6 @@ public class DetailsModel : PageModel
         {
             Pachet = pachet;
         }
-
         return Page();
     }
 

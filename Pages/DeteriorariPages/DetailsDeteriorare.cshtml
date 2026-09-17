@@ -9,7 +9,7 @@
 <div class="container mt-4">
     <h1 class="h3 mb-4">Detalii Deteriorare</h1>
 
-    <div class="card shadow-sm">
+    <div class="card shadow-sm mb-4">
         <div class="card-header bg-primary text-white">
             <h5 class="mb-0">Detalii Deteriorare pentru AWB: @Model.Deteriorare.awb</h5>
         </div>
@@ -36,17 +36,65 @@
             </dl>
         </div>
         <div class="card-footer text-end">
-            @if((await AuthorizationService.AuthorizeAsync(User, "CanView")).Succeeded)
+            @if ((await AuthorizationService.AuthorizeAsync(User, "CanView")).Succeeded)
             {
                 <a asp-page="/IstoricPages/TimelineIstoricModificari" asp-route-id_pachet="@Model.idPachet" asp-route-TipObiect="Deteriorari" class="btn btn-outline-info">
                     Vezi Istoric Deteriorare
                 </a>
             }
-            @if((await AuthorizationService.AuthorizeAsync(User, "CanEdit")).Succeeded)
+            @if ((await AuthorizationService.AuthorizeAsync(User, "CanEdit")).Succeeded)
             {
                 <a asp-page="./EditDeteriorare" asp-route-id_deteriorare="@Model.Deteriorare.id_deteriorare" class="btn btn-primary">Editeaza</a>
             }
             <a asp-page="./IndexDeteriorare" class="btn btn-secondary">Inapoi la Lista</a>
         </div>
     </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="mb-0">Imagini (@Model.Imagini.Count)</h5>
+        </div>
+        <div class="card-body">
+            @if (Model.Imagini.Any())
+            {
+                <div class="d-flex flex-wrap gap-2">
+                    @foreach (var img in Model.Imagini)
+                    {
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#modalImagine"
+                           data-img-src="/api/imagini/@img.id_imagine">
+                            <img src="/api/imagini/@img.id_imagine/thumbnail" width="120" height="120"
+                                 style="object-fit: cover;" class="rounded border" alt="Imagine deteriorare" />
+                        </a>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="text-muted mb-0">Nicio imagine atasata.</p>
+            }
+        </div>
+    </div>
 </div>
+
+<div class="modal fade" id="modalImagine" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="imagineModalMare" src="" class="img-fluid" alt="Imagine marita" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('modalImagine').addEventListener('show.bs.modal', function(event) {
+            var link = event.relatedTarget;
+            var src = link.getAttribute('data-img-src');
+            document.getElementById('imagineModalMare').setAttribute('src', src);
+        });
+    </script>
+}

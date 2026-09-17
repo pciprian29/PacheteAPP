@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -34,7 +34,7 @@ public class CreateModel : PageModel
 
     [BindProperty]
    
-    public Deteriorare Deteriorare { get; set; } = default!;
+    public Deteriorare Deteriorare { get; set; } = default!;    
 
     public async Task<JsonResult> OnGetCautareAwbAsync(string q)
     {
