@@ -1,0 +1,199 @@
+﻿@page "{id:int}"
+@model PacheteAPP.Pages.InfoLipsaPages.SolutionareAWBLipsaModel
+@{
+    ViewData["Title"] = "Solutionare sesizare";
+}
+
+<h1>Solutionare sesizare InfoLipsa #@Model.Id</h1>
+
+<div class="card mb-4">
+    <div class="card-header">
+        Descrierea <sesizarii></sesizarii> (needitabila)
+    </div>
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Tip lipsa</dt>
+            <dd class="col-sm-9">@Model.InfoLipsa.tip_lipsa</dd>
+
+            <dt class="col-sm-3">Camp afectat</dt>
+            <dd class="col-sm-9">@Model.InfoLipsa.camp_afectat</dd>
+
+            <dt class="col-sm-3">Descriere</dt>
+            <dd class="col-sm-9">@Model.InfoLipsa.descriere_lipsa</dd>
+        </dl>
+    </div>
+    <div class="card-body">
+        @if (Model.Imagini.Any())
+        {
+            <div class="d-flex flex-wrap gap-2">
+                @foreach (var img in Model.Imagini)
+                {
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#modalImagine"
+                       data-img-src="/api/imagini/@img.id_imagine">
+                        <img src="/api/imagini/@img.id_imagine/thumbnail" width="120" height="120"
+                             style="object-fit: cover;" class="rounded border" alt="Imagine InfoLipsa" />
+                    </a>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="text-muted mb-0">Nicio imagine atasata.</p>
+        }
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        Cautare pachet
+    </div>
+    <div class="card-body">
+        <form method="get">
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="FiltruAwb" class="form-label"></label>
+                    <input asp-for="FiltruAwb" class="form-control" placeholder="ex: fragment AWB" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="FiltruDescriere" class="form-label"></label>
+                    <input asp-for="FiltruDescriere" class="form-control" placeholder="ex: continut colet" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="FiltruGreutateTeoretica" class="form-label"></label>
+                    <input asp-for="FiltruGreutateTeoretica" class="form-control" placeholder="ex: 8.5" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="FiltruGreutateEfectiva" class="form-label"></label>
+                    <input asp-for="FiltruGreutateEfectiva" class="form-control" placeholder="ex: 8.9" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="FiltruEmailExpeditor" class="form-label"></label>
+                    <input asp-for="FiltruEmailExpeditor" class="form-control" placeholder="ex: parte din email" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="FiltruEmailDestinatar" class="form-label"></label>
+                    <input asp-for="FiltruEmailDestinatar" class="form-control" placeholder="ex: parte din email" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="FiltruAdresaExpeditor" class="form-label"></label>
+                    <input asp-for="FiltruAdresaExpeditor" class="form-control" placeholder="ex: oras, strada" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="FiltruAdresaDestinatar" class="form-label"></label>
+                    <input asp-for="FiltruAdresaDestinatar" class="form-control" placeholder="ex: oras, strada" />
+                </div>
+                
+                
+            </div>
+
+            <div class="mt-3 d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Cauta</button>
+                <a asp-page="./SolutionareAWBLipsa" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Reseteaza filtrele</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model.Rezultate.Count > 25)
+{
+<div class="alert alert-warning">
+    Au fost gasite prea multe pachete care corespund filtrelor. Completati mai multe filtre.
+</div>
+}
+
+@if (Model.Rezultate.Any())
+{
+    <form method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="card mb-4">
+            @if (Model.Rezultate.Count > 25)
+                {
+                    <div class="card-header">
+                        Rezultate (25+)
+                    </div>
+                }
+                else
+                {
+                    <div class="card-header">
+                        Rezultate (@Model.Rezultate.Count)
+                    </div>
+                }
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>AWB</th>
+                            <th>Expeditor</th>
+                            <th>Destinatar</th>
+                            <th>Adresa expeditor</th>
+                            <th>Adresa destinatar</th>
+                            <th>Actiuni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var pachet in Model.Rezultate)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="radio" name="PachetSelectatId" value="@pachet.id_pachet"
+                                           id="pachet-@pachet.id_pachet" required />
+                                </td>
+                                <td><label for="pachet-@pachet.id_pachet">@pachet.awb</label></td>
+                                <td>@pachet.email_expeditor</td>
+                                <td>@pachet.email_destinatar</td>
+                                <td>@pachet.adresa_expeditor</td>
+                                <td>@pachet.adresa_destinatar</td>
+                                <td>
+                                    <a asp-page="/PachetPages/DetailsPachet" asp-route-id_pachet="@pachet.id_pachet" class="btn btn-sm btn-secondary">Detalii</a>
+                                </td>   
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">Confirma asocierea de pachetul selectat</button>
+    </form>
+}
+else if (Model.AuCautat)
+{
+    <div class="alert alert-warning">
+        Niciun pachet gasit cu aceste filtre. Incearca sa reduci numarul de campuri completate.
+    </div>
+}
+
+@if (!ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <div asp-validation-summary="ModelOnly"></div>
+    </div>
+}
+
+
+<div class="modal fade" id="modalImagine" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="imagineModalMare" src="" class="img-fluid" alt="Imagine marita" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('modalImagine').addEventListener('show.bs.modal', function(event) {
+            var link = event.relatedTarget;
+            var src = link.getAttribute('data-img-src');
+            document.getElementById('imagineModalMare').setAttribute('src', src);
+        });
+    </script>
+}

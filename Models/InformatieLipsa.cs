@@ -17,8 +17,7 @@ namespace PacheteAPP.Models
         [MaxLength(255)]
         public string descriere { get; set; }
 
-        [Required]
-        public int id_inregistrare { get; set; }
+        public int? id_inregistrare { get; set; }
 
         [Required]
         public int id_tip_lipsa { get; set; }

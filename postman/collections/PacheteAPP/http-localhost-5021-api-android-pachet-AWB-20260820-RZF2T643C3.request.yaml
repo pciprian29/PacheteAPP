@@ -1,0 +1,10 @@
+$kind: http-request
+name: http://localhost:5021/api/android/pachet/AWB-20260820-RZF2T643C3
+description: ""
+url: http://localhost:5021/api/android/pachet/AWB-20260820-RZF2T643C3
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoicGNpcHJpYW4yOTEwQGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiUGVybWlzaXVuZSI6WyJWaWV3IiwiQ3JlYXRlIiwiRWRpdCIsIkRlbGV0ZSJdLCJleHAiOjE3OTAxNDgzNTksImlzcyI6IlBhY2hldGVBUFAiLCJhdWQiOiJQYWNoZXRlQVBQLkFuZHJvaWQifQ.48Uko6WNAutBicOl0gHHHB-aKzcHvK7aP6PHPr2tYvk
+order: 4219001686659695

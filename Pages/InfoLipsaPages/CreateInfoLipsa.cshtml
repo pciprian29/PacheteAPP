@@ -15,11 +15,21 @@
             <div class="card-body">
                 <form method="post">
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none" data-val-summary></div>
-                    <h2 class="h6 text-uppercase text-muted mb-3">Formular Deteriorare</h2>
+                    <h2 class="h6 text-uppercase text-muted mb-3">Formular Informatii Lipsa</h2>
                     <div class="row g-3 mb-4">
                         @if (string.IsNullOrEmpty(Model.PachetAwb))
                         {
-                            <div class="col-md-6">
+                            <div class="col-12">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" asp-for="esteAwbLipsa" id="check-awb-lipsa">
+                                    <label class="form-check-label fw-bold" for="check-awb-lipsa">
+                                        Pachetul nu are AWB (AWB Lipsa)
+                                    </label>
+                                </div>
+                            </div>
+
+                            
+                            <div class="col-md-6" id="container-awb">
                                 <label asp-for="PachetAwb" class="form-label">AWB-ul Pachetului</label>
                                 <select asp-for="PachetAwb" id="select-awb" class="form-select" placeholder="Tastati pentru a cauta AWB-ul..."></select>
                                 <span asp-validation-for="PachetAwb" class="text-danger small"></span>
@@ -30,18 +40,23 @@
                             <input type="hidden" asp-for="PachetAwb" />
                             <div class="col-md-6 d-flex align-items-center">
                                 <span class="text-muted">
-                                    Adaugi o deteriorare pentru AWB: <strong class="text-primary">@Model.PachetAwb</strong>
+                                    Adaugi o informatie lipsa pentru AWB: <strong class="text-primary">@Model.PachetAwb</strong>
                                 </span>
                             </div>
                         }
-                        <div class="col-12">
+                        <div class="col-12" id="container-camp-afectat">
                             <label asp-for="InformatieLipsa.camp_afectat" class="form-label">Camp Afectat</label>
-                            <input asp-for="InformatieLipsa.camp_afectat" class="form-control" aria-required="true" />
+                            <input asp-for="InformatieLipsa.camp_afectat" id="input-camp-afectat" class="form-control" aria-required="true" />
                             <span asp-validation-for="InformatieLipsa.camp_afectat" class="text-danger small"></span>
+                        </div>
+                        <div class="col-12 d-none" id="atentionare-descriere">
+                            <div class="alert alert-warning p-2 mb-0 small" role="alert">
+                                <strong>Atentie!</strong> Completati cu toate detaliile disponibile pentru acest pachet pentru a facilita solutionarea sesizarii.
+                            </div>  
                         </div>
                         <div class="col-12">
                             <label asp-for="InformatieLipsa.descriere" class="form-label">Descrierea Lipsei</label>
-                            <input asp-for="InformatieLipsa.descriere" class="form-control" aria-required="true" />
+                            <textarea asp-for="InformatieLipsa.descriere" class="form-control" rows="3" aria-required="true"></textarea>
                             <span asp-validation-for="InformatieLipsa.descriere" class="text-danger small"></span>
                         </div>
                         <div class="col-md-6">
@@ -67,37 +82,66 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-
-    <!-- JS Tom Select -->
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            
-            new TomSelect('#select-awb', {
-                valueField: 'awb',   
-                labelField: 'awb',  
-                searchField: 'awb',  
-                create: false,       
-                maxItems: 1,
-                placeholder: 'Incepeți sa tastati AWB-ul...',
-                render: {
-                    no_results: function(data, escape) {
-                        return '<div class="no-results text-danger px-2 py-1">Nu am găsit niciun pachet cu acest AWB.</div>';
-                    }
-                },
-                load: function(query, callback) {
-                    if (!query.length) return callback();
 
-                    fetch(`?handler=CautareAwb&q=${encodeURIComponent(query)}`)
-                        .then(response => response.json())
-                        .then(json => {
-                            callback(json);
-                        }).catch(() => {
-                            callback();
-                        });
-                }
-            });
+            var selectElement = document.querySelector('#select-awb');
+            var tomSelectInstance = null;
+
+            if (selectElement) {
+                tomSelectInstance = new TomSelect(selectElement, {
+                    valueField: 'awb',   
+                    labelField: 'awb',  
+                    searchField: 'awb',  
+                    create: false,       
+                    maxItems: 1,
+                    placeholder: 'Incepeti sa tastati AWB-ul...',
+                    render: {
+                        no_results: function(data, escape) {
+                            return '<div class="no-results text-danger px-2 py-1">Nu am gasit niciun pachet cu acest AWB.</div>';
+                        }
+                    },
+                    load: function(query, callback) {
+                        if (!query.length) return callback();
+
+                        fetch(`?handler=CautareAwb&q=${encodeURIComponent(query)}`)
+                            .then(response => response.json())
+                            .then(json => {
+                                callback(json);
+                            }).catch(() => {
+                                callback();
+                            });
+                    }
+                });
+            }
+            var checkAwbLipsa = document.getElementById('check-awb-lipsa');
+            var containerAwb = document.getElementById('container-awb');
+            var containerCampAfectat = document.getElementById('container-camp-afectat');
+            var inputCampAfectat = document.getElementById('input-camp-afectat');
+            var containerAlertaDescriere = document.getElementById('atentionare-descriere');
+
+            if (checkAwbLipsa) {
+                checkAwbLipsa.addEventListener('change', function() {
+                    if (this.checked) {
+                        containerAwb.classList.add('d-none');
+                        containerCampAfectat.classList.add('d-none');
+                        containerAlertaDescriere.classList.remove('d-none');
+                        
+                        inputCampAfectat.value = 'AWB';
+
+                        if (tomSelectInstance) {
+                            tomSelectInstance.clear();
+                        }
+                    } else {
+                        containerAwb.classList.remove('d-none');
+                        containerCampAfectat.classList.remove('d-none');
+                        inputCampAfectat.value = '';
+                        containerAlertaDescriere.classList.add('d-none');
+                    }
+                });
+            }
 
         });
     </script>

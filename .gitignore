@@ -3,6 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Server side images
+/Imagini
+
+
 # User-specific files
 *.rsuser
 *.suo
@@ -361,3 +365,12 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# ASP.NET Core secrets and local overrides
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.local.json
+secrets.json
+appsettings.json
+# JetBrains Rider (daca proiectul e deschis si acolo)
+.idea/

@@ -21,7 +21,7 @@ namespace PacheteAPP.Models
         public DateTime data_modificare { get; set; } = DateTime.Now;
 
         [Required]
-        [MaxLength(255)]
+        [MaxLength(1000)]
         public string descriere { get; set; }
 
         [Required]

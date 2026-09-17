@@ -72,7 +72,14 @@
         @foreach (var item in Model.InformatiiLipsa)
         {
             <tr>
-                <td>@item.awb</td>
+                @if (item.awb == null)
+                {
+                    <td class="text-danger fw-bold">FARA AWB</td>
+                }
+                else
+                {
+                    <td>@item.awb</td>
+                }
                 <td>@item.camp_afectat</td>
                 <td>@item.tip_lipsa</td>
                 <td>@item.data_inregistrare</td>
@@ -89,6 +96,10 @@
                     @if((await AuthorizationService.AuthorizeAsync(User, "CanDelete")).Succeeded)
                     {
                         <a asp-page="./DeleteInfoLipsa" asp-route-id_info_lipsa="@item.id_info_lipsa" class="btn btn-sm btn-danger">Sterge</a>
+                    }
+                    @if((await AuthorizationService.AuthorizeAsync(User, "CanEdit")).Succeeded && item.awb == null)
+                    {
+                        <a asp-page="./SolutionareAWBLipsa" asp-route-id="@item.id_info_lipsa" class="btn btn-sm btn-warning">Solutionare AWB</a>
                     }
                 </td>
             </tr>

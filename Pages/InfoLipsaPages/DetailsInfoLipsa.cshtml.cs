@@ -22,6 +22,8 @@ public class DetailsModel : PageModel
 
     public int idPachet { get; set; }
 
+    public List<Imagine> Imagini { get; set; } = new();
+
     public async Task<IActionResult> OnGetAsync(int? id_info_lipsa)
     {
         if(id_info_lipsa == null)
@@ -47,6 +49,11 @@ public class DetailsModel : PageModel
                 idPachet = pachet.id_pachet;
             }
         }
+
+        Imagini = await _context.Imagini
+            .Where(i => i.id_tip_imagine == 1 && i.id_entitate == id_info_lipsa)
+            .OrderBy(i => i.data_creare)
+            .ToListAsync();
 
         return Page();
 

@@ -1,0 +1,15 @@
+$kind: http-request
+name: https://localhost:7043/api/android/pachete
+description: ""
+url: https://localhost:7043/api/android/pachete
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"username\": \"pciprian2910@gmail.com\"\r
+
+    \    \"password\": \"Parola123!\"\r
+
+    }"
+order: 2578022176377551
